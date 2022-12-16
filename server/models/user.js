@@ -1,0 +1,34 @@
+import mongoose from "mongoose";
+import { noteSchema } from "./note";
+
+export const userSchema = mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    createdOn: {
+        type: Date,
+        default: new Date(),
+    },
+    manualSignIn: {
+        type: Boolean,
+        default: false,
+    },
+    googleSignIn: {
+        type: Boolean, 
+        default: false,
+    },
+    notes: [ noteSchema ]
+});
+
+const User = mongoose.model('User', userSchema);
+
+export default User;
