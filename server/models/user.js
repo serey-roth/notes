@@ -18,14 +18,6 @@ export const userSchema = mongoose.Schema({
         type: Date,
         default: new Date(),
     },
-    manualSignIn: {
-        type: Boolean,
-        default: false,
-    },
-    googleSignIn: {
-        type: Boolean, 
-        default: false,
-    },
     notes: [ noteSchema ]
 });
 
