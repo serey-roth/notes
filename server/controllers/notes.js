@@ -1,6 +1,7 @@
-import Note from "../models/note.js"
 import mongoose from "mongoose"
+
 import User from "../models/user.js";
+import Note from "../models/note.js"
 
 export const getNotes = async (req, res) => {
     if (!req.userId) {
