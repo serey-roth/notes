@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 
 import notesRoutes from './routes/notes.js'
+import usersRoutes from './routes/users.js'
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 
 app.use('/notes', notesRoutes);
+app.use('/users', usersRoutes);
 
 dotenv.config();
 
