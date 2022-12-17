@@ -1,18 +1,60 @@
-import { useState, useContext, createContext } from "react";
+import { useNavigate } from 'react-router-dom'
 
-const UserContext = createContext();
+import { useState, useContext, createContext, useEffect } from "react";
+import { useSignIn, useSignUp } from "../utils/hooks/auth";
 
-export const UserContextProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+const AuthContext = createContext();
+
+export const AuthContextProvider = ({ children }) => {
+    const navigate = useNavigate();
+    const [auth, setAuth] = useState(null);
+
+    const { 
+        mutate: signIn, 
+        isLoading: isSigningIn, 
+        isError: isErrorSigningIn, 
+        isSuccess: isSignedIn } = useSignIn();
+
+    const { 
+        mutate: signUp, 
+        isLoading: isSigningUp, 
+        isError: isErrorSigningUp, 
+        isSuccess: isSignedUp } = useSignUp();
+
+    const onSuccessAuth = (auth) => {
+        if (auth) {
+            setAuth(auth);
+            localStorage.setItem('currentUser', JSON.stringify(auth));
+            navigate('/notes');
+        }
+    }
+
+    const onSignedOut = () => {
+        setAuth(null);
+        localStorage.removeItem('currentUser');
+        navigate('/');
+    }
+
+
 
     return (
-        <UserContext.Provider value={{
-            user,
-            setUser
+        <AuthContext.Provider value={{
+            auth,
+            setAuth,
+            signIn,
+            signUp,
+            onSuccessAuth,
+            onSignedOut,
+            isSigningIn,
+            isSigningUp,
+            isSignedIn,
+            isSignedUp,
+            isErrorSigningIn,
+            isErrorSigningUp
         }}>
             { children }
-        </UserContext.Provider>
+        </AuthContext.Provider>
     )
 }
 
-export const useUserContext = () => useContext(UserContext);
+export const useAuthContext = () => useContext(AuthContext);
