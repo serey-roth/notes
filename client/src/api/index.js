@@ -24,9 +24,9 @@ export const deleteNote = (id) => decoratePromise(api.delete(`/notes/${id}`));
 
 export const getNote = (id) => decoratePromise(api.get(`/notes/${id}`));
 
-export const signIn = (credentials) => decoratePromise(api.post('/users/signIn', credentials));
+export const signIn = (credentials) => decoratePromise(api.post('/auth/signIn', credentials));
 
-export const signUp = (credentials) => decoratePromise(api.post('/users/signUp', credentials));
+export const signUp = (credentials) => decoratePromise(api.post('/auth/signUp', credentials));
 
 function decoratePromise(promise) {
     return promise
