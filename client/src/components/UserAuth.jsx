@@ -76,26 +76,30 @@ const UserAuth = () => {
                 gap: '0.5rem',
             }} 
             onSubmit={handleSubmit}>
-                <label htmlFor='firstName'>Title:</label>
-                <input 
-                    type='text' 
-                    name='firstName' 
-                    id='firstName' 
-                    placeholder='e.g John' 
-                    required
-                    value={formData.firstName}
-                    onChange={handleChange} />
+                {!isSignIn && (
+                    <>
+                        <label htmlFor='firstName'>Title:</label>
+                        <input 
+                            type='text' 
+                            name='firstName' 
+                            id='firstName' 
+                            placeholder='e.g John' 
+                            required
+                            value={formData.firstName}
+                            onChange={handleChange} />
 
-                <label htmlFor='lastName'>Title:</label>
-                <input 
-                    type='text' 
-                    name='lastName' 
-                    id='lastName' 
-                    placeholder='e.g Doe' 
-                    required
-                    value={formData.lastName}
-                    onChange={handleChange} />
+                        <label htmlFor='lastName'>Title:</label>
+                        <input 
+                            type='text' 
+                            name='lastName' 
+                            id='lastName' 
+                            placeholder='e.g Doe' 
+                            required
+                            value={formData.lastName}
+                            onChange={handleChange} />
 
+                    </>
+                )}
                 <label htmlFor='email'>Email:</label>
                 <input
                     type='text'
