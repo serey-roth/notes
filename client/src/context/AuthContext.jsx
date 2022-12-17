@@ -35,7 +35,18 @@ export const AuthContextProvider = ({ children }) => {
         navigate('/');
     }
 
+    useEffect(() => {
+        const storage = localStorage.getItem('currentUser');
+        if (storage && JSON.parse(storage)) {
+            setAuth(JSON.parse(storage));
+        }
+    },[])
 
+    useEffect(() => {
+        if (auth) {
+            navigate('/notes');
+        }
+    }, [auth]);
 
     return (
         <AuthContext.Provider value={{
