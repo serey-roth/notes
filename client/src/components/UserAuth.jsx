@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useAuthContext } from '../context/AuthContext';
 
 const UserAuth = () => {
     const [isSignIn, setIsSignIn] = useState(true);
@@ -10,6 +11,20 @@ const UserAuth = () => {
         confirmPassword: '',
     })
 
+    const { 
+        signIn,
+        signUp,
+        onSuccessAuth,
+        isSigningIn,
+        isSigningUp,
+        isErrorSigningIn,
+        isErrorSigningUp
+    } = useAuthContext();
+
+    const handleModeChange = () => {
+        setIsSignIn(prevMode => !prevMode);
+    }
+
     const handleChange = (e) => {
         setFormData(prevData => ({
             ...prevData,
@@ -19,7 +34,27 @@ const UserAuth = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
+        
+        const { firstName, lastName, email, password, confirmPassword } = formData;
+
+        if (!isSignIn && (password !== confirmPassword)) return;
+        
+        if (isSignIn) {
+            signIn({
+                email,
+                password,
+            }, {
+                onSuccess: onSuccessAuth,
+            })
+        } else {
+            signUp({
+                email,
+                password,
+                name: `${firstName} ${lastName}`,
+            }, {
+                onSuccess: onSuccessAuth,
+            })
+        }
     }
 
     return (
@@ -30,6 +65,10 @@ const UserAuth = () => {
             position: 'relative'
         }} >
             <h1>{isSignIn ? 'Sign In' : 'Sign Up'}</h1>
+            {isSigningIn && <p>Signing in. Please wait...</p>}
+            {isSigningUp && <p>Signing up. Please wait...</p>}
+            {isErrorSigningIn && <p>Error occurred when signing in!</p>}
+            {isErrorSigningUp && <p>Error occurred when signing up!</p>}
             <form
             style={{ 
                 display: 'flex',
@@ -77,7 +116,7 @@ const UserAuth = () => {
                     value={formData.password}
                     onChange={handleChange} />
 
-                {isSignIn && (
+                {!isSignIn && (
                     <>
                     <label htmlFor='confirmPassword'>Confirm Password:</label>
                     <input
@@ -94,6 +133,20 @@ const UserAuth = () => {
                 <button type='submit'>
                     {isSignIn ? 'Sign In' : 'Sign Up'}
                 </button>
+
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
+                    <p>{isSignIn ? "Don't have" : 'Already have'} an account?</p>
+                    <button 
+                    type='button'
+                    onClick={handleModeChange}
+                    style={{
+                        border: 0,
+                        backgroundColor: 'inherit',
+                        textDecoration: 'underline',
+                    }}>
+                        {isSignIn ? 'Sign Up' : 'Sign In'}
+                    </button>
+                </span>
             </form>
         </div>
     )
