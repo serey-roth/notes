@@ -3,9 +3,15 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import passport from 'passport'
 
 import notesRoutes from './routes/notes.js'
 import localRoutes from './routes/auth/local.js'
+import googleRoutes from './routes/auth/google.js'
+
+import { googleLogin } from './services/googleStrategy.js'
+
+dotenv.config();
 
 const app = express();
 
@@ -13,13 +19,16 @@ app.use(cors({
     credentials: true,
     origin: '*',
 }));
+
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
+app.use(passport.initialize());
 
 app.use('/notes', notesRoutes);
 app.use('/auth', localRoutes);
+app.use('/auth', googleRoutes);
 
-dotenv.config();
+passport.use(googleLogin);
 
 const PORT = process.env.PORT || 5050;
 
