@@ -69,6 +69,9 @@ const UserAuth = () => {
             {isSigningUp && <p>Signing up. Please wait...</p>}
             {isErrorSigningIn && <p>Error occurred when signing in!</p>}
             {isErrorSigningUp && <p>Error occurred when signing up!</p>}
+            <a href='http://localhost:5050/auth/google'>
+                Sign In via Google
+            </a>
             <form
             style={{ 
                 display: 'flex',
