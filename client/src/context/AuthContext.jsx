@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
-
 import { useState, useContext, createContext, useEffect } from "react";
+import decode from 'jwt-decode'
+
 import { useSignIn, useSignUp } from "../utils/hooks/auth";
 
 const AuthContext = createContext();
@@ -47,6 +48,16 @@ export const AuthContextProvider = ({ children }) => {
             navigate('/notes');
         }
     }, [auth]);
+
+    useEffect(() => {
+        const token = auth?.token;
+        if (token) {
+            const decodedToken = decode(token);
+            if (decodedToken.exp * 1000 < (new Date()).getTime()) {
+                onSignedOut();
+            }
+        }
+    })
 
     return (
         <AuthContext.Provider value={{
