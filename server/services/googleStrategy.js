@@ -24,7 +24,8 @@ export const googleLogin = new GoogleStrategy(
 
             const newUser = await new User({
                 email: profile.email,
-                name: profile.displayName
+                name: profile.displayName,
+                provider: 'google'
             }).save();
 
             req.user = newUser;
