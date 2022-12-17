@@ -82,8 +82,7 @@ const Form = () => {
                 <input 
                     type='date' 
                     name='date' 
-                    id='title' 
-                    placeholder='Enter a title' 
+                    id='date'
                     value={formData.date}
                     required
                     onChange={handleChange} />
