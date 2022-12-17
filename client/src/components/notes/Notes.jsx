@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useNotesContext } from '../../context/NotesContext';
-import { useDeleteNote, useNotes } from '../../utils/hooks';
 import Note from './Note'
 
 const Notes = () => {
@@ -13,7 +12,6 @@ const Notes = () => {
         isErrorNotes
     } = useNotesContext();
 
-    console.log(notes)
     return (
         <div style={{
             display: 'flex',
