@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { BrowserRouter } from 'react-router-dom'
 
 import App from './App'
-import { UserContextProvider } from './context/AuthContext'
+import { AuthContextProvider } from './context/AuthContext'
 import './index.css'
 
 const queryClient = new QueryClient();
@@ -13,9 +13,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
-                <UserContextProvider>
+                <AuthContextProvider>
                     <App />
-                </UserContextProvider>
+                </AuthContextProvider>
             </QueryClientProvider>
         </BrowserRouter>
     </React.StrictMode>,
