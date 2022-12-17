@@ -14,21 +14,22 @@ api.interceptors.request.use((req) => {
     return req;
 })
 
-export const getNotes = decoratePromise(() => api.get('/notes'));
+export const getNotes = () => decoratePromise(api.get('/notes'));
 
-export const addNote = decoratePromise((note) => api.post('/notes', note));
+export const addNote = (note) => decoratePromise(api.post('/notes', note));
 
-export const updateNote = decoratePromise(({ id, note }) => api.patch(`/notes/${id}`, note));
+export const updateNote = ({ id, note }) => decoratePromise(api.patch(`/notes/${id}`, note));
 
-export const deleteNote = decoratePromise((id) => api.delete(`/notes/${id}`));
+export const deleteNote = (id) => decoratePromise(api.delete(`/notes/${id}`));
 
-export const getNote = decoratePromise((id) => api.get(`/notes/${id}`));
+export const getNote = (id) => decoratePromise(api.get(`/notes/${id}`));
 
-export const signIn = decoratePromise((credentials) => api.post('/users/signIn', credentials));
+export const signIn = (credentials) => decoratePromise(api.post('/users/signIn', credentials));
 
-export const signUp = decoratePromise((credentials) => api.post('/users/signUp', credentials));
+export const signUp = (credentials) => decoratePromise(api.post('/users/signUp', credentials));
 
-const decoratePromise = (promise) => 
-promise
-.then(response => response.data)
-.catch(error => console.log(error.message));
+function decoratePromise(promise) {
+    return promise
+        .then(response => response.data)
+        .catch(error => console.log(error.message));
+}
