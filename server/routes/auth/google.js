@@ -16,14 +16,15 @@ router.get('/google/callback',
         session: false,
     }),
     (req, res) => {
-        const { _id, email } = req.user;
+        const { _id: id, email } = req.user;
         const token = jwt.sign({
             email,
-            id: _id,
+            id
         }, 
         process.env.SECRET_KEY,
         { expiresIn: '12h'});
-        res.cookie('x-auth-cookie', token);
+        res.cookie('x-auth-info', { email });
+        res.cookie('x-auth-token', token);
         res.redirect(process.env.CLIENT_URL_SUCCESS);
     }
 );
