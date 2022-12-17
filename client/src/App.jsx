@@ -7,7 +7,8 @@ function App() {
     return (
         <div
         style={{
-            display: 'grid',
+            display: 'flex',
+            alignItems: 'center',
         }}>
             <Routes>
                 <Route path="/notes" element={<Home />} />
