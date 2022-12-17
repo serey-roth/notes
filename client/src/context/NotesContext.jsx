@@ -1,10 +1,10 @@
 import { useState, useContext, createContext, useEffect, useCallback } from 'react'
 
-import { useNotes, useAddNote, useDeleteNote, useUpdateNote } from '../utils/hooks';
+import { useNotes, useAddNote, useDeleteNote, useUpdateNote } from '../utils/hooks/notes';
 
-const NoteContext = createContext();
+const NotesContext = createContext();
 
-export const NoteContextProvider = ({ children }) => {
+export const NotesContextProvider = ({ children }) => {
     const [notes, setNotes] = useState([]);
     const [editedNote, setEditedNote] = useState(null);
 
@@ -56,7 +56,7 @@ export const NoteContextProvider = ({ children }) => {
     }, [data])
 
     return (
-        <NoteContext.Provider value={{
+        <NotesContext.Provider value={{
             notes, 
             editedNote,
             onEditedNote,
@@ -77,8 +77,8 @@ export const NoteContextProvider = ({ children }) => {
             onSuccessDelete
         }}>
             {children}
-        </NoteContext.Provider>
+        </NotesContext.Provider>
     )
 }
 
-export const useNotesContext = () => useContext(NoteContext);
+export const useNotesContext = () => useContext(NotesContext);
