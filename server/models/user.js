@@ -2,23 +2,35 @@ import mongoose from "mongoose";
 import { noteSchema } from "./note.js";
 
 export const userSchema = mongoose.Schema({
+    provider: {
+        type: String,
+        required: true,
+    },
     name: {
         type: String,
         required: true,
+        unique: true,
     },
     email: {
         type: String,
         required: true,
+        unique: true,
     },
     password: {
         type: String,
-        required: true,
+        minlength: 6,
+        maxlength: 60,
     },
-    createdOn: {
-        type: Date,
-        default: new Date(),
+    googleId: {
+        type: String,
+        unique: true,
     },
-    notes: [ noteSchema ]
+    notes: {
+        type: [ noteSchema ],
+        default: [],
+    }
+}, {
+    timestamps: true,
 });
 
 const User = mongoose.model('User', userSchema);
