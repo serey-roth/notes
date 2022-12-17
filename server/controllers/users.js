@@ -41,7 +41,7 @@ export const signUp = async (req, res) => {
             return res.status(401).json({ message: 'This email has been taken!'})
         }
 
-        const hashedPassword = bcrypt.hash(password, 12);
+        const hashedPassword = await bcrypt.hash(password, 12);
 
         const result = await User.create({
             email,
