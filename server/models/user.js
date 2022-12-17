@@ -33,6 +33,31 @@ export const userSchema = mongoose.Schema({
     timestamps: true,
 });
 
+userSchema.methods.toJSON = function() {
+    return {
+        id: this._id,
+        provider: this.provider,
+        email: this.email,
+        name: this.name,
+        notes: this.notes,
+        createdAt: this.createdAt,
+        updatedAt: this.updatedAt,
+    }
+}
+
+userSchema.methods.generateJWT = function() {
+    const token = jwt.sign(
+        {
+            id: this._id,
+            provider: this.provider,
+            email: this.email,
+        },
+        process.env.SECRET_KEY,
+        { expiresIn: '1h' },
+    )
+    return token;
+}
+
 const User = mongoose.model('User', userSchema);
 
 export default User;
