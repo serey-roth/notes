@@ -3,7 +3,7 @@ import { useState, useContext, createContext, useEffect } from "react";
 import decode from 'jwt-decode'
 import Cookies from 'js-cookie'
 
-import { useSignIn, useSignUp } from "../utils/hooks/auth";
+import { useSignIn, useSignUp, useSignOut } from "../utils/hooks/auth";
 
 const AuthContext = createContext();
 
@@ -26,11 +26,17 @@ export const AuthContextProvider = ({ children }) => {
         isSuccess: isSignedUp 
     } = useSignUp();
 
+    const { 
+        mutate: signOut, 
+        isLoading: isSigningOut, 
+        isError: isErrorSigningOut, 
+        isSuccess: isSignedOut 
+    } = useSignOut();
+
     const onSuccessAuth = (auth) => {
         if (auth) {
             setIsAuthenticated(true);
             setAuth(auth);
-            localStorage.setItem('currentUser', JSON.stringify(auth));
             navigate('/notes');
         }
     }
@@ -38,7 +44,6 @@ export const AuthContextProvider = ({ children }) => {
     const onSignedOut = () => {
         setIsAuthenticated(false);
         setAuth(null);
-        localStorage.removeItem('currentUser');
         navigate('/');
     }
 
@@ -63,7 +68,6 @@ export const AuthContextProvider = ({ children }) => {
                 result,
                 token
             };
-
             setIsAuthenticated(true);
             setAuth(info);
         }
@@ -75,14 +79,18 @@ export const AuthContextProvider = ({ children }) => {
             setAuth,
             signIn,
             signUp,
+            signOut,
             onSuccessAuth,
             onSignedOut,
             isSigningIn,
             isSigningUp,
+            isSigningOut,
             isSignedIn,
             isSignedUp,
+            isSignedOut,
             isErrorSigningIn,
             isErrorSigningUp,
+            isErrorSigningOut,
             isAuthenticated,
         }}>
             { children }
