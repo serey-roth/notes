@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { getNotes, addNote, updateNote, deleteNote } from "../controllers/notes.js";
-import requireJWTAuth from '../middleware/requireJWTAuth'
+import requireJWTAuth from '../middleware/requireJWTAuth.js'
 
 const router = Router();
 
