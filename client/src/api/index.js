@@ -18,11 +18,11 @@ export const updateNote = ({ id, note, token }) =>
 export const deleteNote = ({ id, token }) => 
     decoratePromise(api.delete(`/notes/${id}`, attachTokenToHeaders(token)));
 
-export const signIn = (credentials) => 
-    decoratePromise(api.post('/auth/signIn', credentials));
+export const login = (credentials) => 
+    decoratePromise(api.post('/auth/login', credentials));
 
-export const signUp = (credentials) => 
-    decoratePromise(api.post('/auth/signUp', credentials));
+export const register = (credentials) => 
+    decoratePromise(api.post('/auth/register', credentials));
 
 function attachTokenToHeaders(token) {
     const config = {
