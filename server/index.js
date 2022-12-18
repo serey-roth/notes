@@ -6,10 +6,11 @@ import dotenv from 'dotenv'
 import passport from 'passport'
 
 import notesRoutes from './routes/notes.js'
-import localRoutes from './routes/auth/local.js'
+import emailRoutes from './routes/auth/email.js'
 import googleRoutes from './routes/auth/google.js'
 
 import { googleLogin } from './services/googleStrategy.js'
+import emailLogin from './services/emailStrategy.js'
 
 dotenv.config();
 
@@ -25,10 +26,11 @@ app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(passport.initialize());
 
 app.use('/notes', notesRoutes);
-app.use('/auth', localRoutes);
+app.use('/auth', emailRoutes);
 app.use('/auth', googleRoutes);
 
 passport.use(googleLogin);
+passport.use(emailLogin);
 
 const PORT = process.env.PORT || 5050;
 
