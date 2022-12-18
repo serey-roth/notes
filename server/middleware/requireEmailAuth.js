@@ -4,7 +4,7 @@ const requireEmailAuth = passport.authenticate(
     'local',
     (error, user,  info) => {
         if (error) {
-            return next(error);
+            return req;
         }
 
         if (!user) {
