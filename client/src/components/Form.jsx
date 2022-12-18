@@ -34,7 +34,7 @@ const Form = () => {
 
         if (editedNote) {
             update(
-                { id: editedNote._id, note: formData, token: auth.token }, 
+                { id: editedNote._id, note: { ...editedNote, ...formData }, token: auth.token }, 
                 { onSuccess: onSuccessUpdate }
             );
             onEditedNote(null);
@@ -108,13 +108,11 @@ const Form = () => {
 
                 <button 
                 type='button' 
-                onClick={handleClear}
-                disabled={!auth}>
+                onClick={handleClear}>
                     Clear
                 </button>
                 <button 
-                type='submit'
-                disabled={!auth}>
+                type='submit'>
                     {editedNote ? 'Edit' : 'Add'} Note
                 </button>
             </form>
