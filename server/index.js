@@ -9,8 +9,9 @@ import notesRoutes from './routes/notes.js'
 import emailRoutes from './routes/auth/email.js'
 import googleRoutes from './routes/auth/google.js'
 
-import { googleLogin } from './services/googleStrategy.js'
+import googleLogin from './services/googleStrategy.js'
 import emailLogin from './services/emailStrategy.js'
+import jwtLogin from './services/jwtStrategy.js'
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ app.use('/auth', googleRoutes);
 
 passport.use(googleLogin);
 passport.use(emailLogin);
+passport.use(jwtLogin);
 
 const PORT = process.env.PORT || 5050;
 
