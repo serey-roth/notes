@@ -1,7 +1,9 @@
 import React from 'react'
+import { useAuthContext } from '../../context/AuthContext';
 import { useNotesContext } from '../../context/NotesContext'
 
 const Note = ({ data }) => {
+    const { auth } = useAuthContext();
     const { onEditedNote, remove, onSuccessDelete } = useNotesContext();
 
     return (
@@ -25,11 +27,16 @@ const Note = ({ data }) => {
                         <button 
                         type='button'
                         onClick={() => onEditedNote(data)} 
+                        disabled={!auth}
                         >
                             Edit
                         </button>
                         <button type='button'
-                        onClick={() => remove(data._id, { onSuccess: onSuccessDelete })}
+                        onClick={() => remove(
+                            { id: data._id, token: auth.token }, 
+                            { onSuccess: onSuccessDelete }
+                        )}
+                        disabled={!auth}
                         >
                             Delete
                         </button>
