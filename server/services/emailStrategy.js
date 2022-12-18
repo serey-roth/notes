@@ -5,7 +5,7 @@ import User from '../models/user.js'
 
 export const emailLogin = new LocalStrategy(
     {
-        userNameField: 'email',
+        usernameField: 'email',
         passwordField: 'password',
         session: false,
         passReqToCallback: true,
@@ -27,6 +27,7 @@ export const emailLogin = new LocalStrategy(
             }
             
         } catch (error) {
+            console.log(error)
             return done(error);
         }
     }
