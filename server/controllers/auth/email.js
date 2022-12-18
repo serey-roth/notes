@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs'
 
 import User from "../../models/user.js";
 
-export const signIn = async (req, res) => {
+export const signIn = (req, res) => {
     if (!req.user) {
         return res.status(500).json({ message: 'Sign In was unsuccessful. Please try again!'});
     }
@@ -23,24 +23,18 @@ export const signUp = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        const user = await User.create({
+        const user = new User({
             email,
             password: hashedPassword,
             provider: 'email',
             ...rest
         });
+        await user.save();
 
         const token = user.generateJWT();
+
         res.status(200).json({ user: user.toJSON(), token });
     } catch (error) {
         res.status(500).json({ message: 'Sign Up was unsuccessful. Please try again!'})
     }
-}
-
-export const logout = async (req, res) => {
-    req.logout(function (error) {
-        if (!error) {
-            res.redirect(process.env.CLIENT_URL_AUTH);
-        }
-    });
 }
