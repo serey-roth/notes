@@ -1,5 +1,5 @@
 import { useMutation } from "react-query"
-import { signIn, signUp } from "../../api"
+import { logOut, signIn, signUp } from "../../api"
 
 export const useSignIn = () => {
     return useMutation(signIn)
@@ -7,4 +7,8 @@ export const useSignIn = () => {
 
 export const useSignUp = () => {
     return useMutation(signUp);
+}
+
+export const useSignOut = () => {
+    return useMutation(logOut);
 }
