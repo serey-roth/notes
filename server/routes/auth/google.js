@@ -12,7 +12,7 @@ router.get('/google',
 
 router.get('/google/callback', 
     passport.authenticate('google', {
-        failureRedirect: process.env.CLIENT_URL_FAILURE,
+        failureRedirect: process.env.CLIENT_URL_AUTH,
         session: false,
     }),
     (req, res) => {
@@ -25,7 +25,7 @@ router.get('/google/callback',
         { expiresIn: '12h'});
         res.cookie('x-auth-info', { email });
         res.cookie('x-auth-token', token);
-        res.redirect(process.env.CLIENT_URL_SUCCESS);
+        res.redirect(process.env.CLIENT_URL_HOME);
     }
 );
 
