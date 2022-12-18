@@ -38,6 +38,9 @@ export const signUp = async (req, res) => {
 }
 
 export const logout = async (req, res) => {
-    req.logout();
-    res.redirect(process.env.CLIENT_URL_AUTH);
+    req.logout(function (error) {
+        if (!error) {
+            res.redirect(process.env.CLIENT_URL_AUTH);
+        }
+    });
 }
