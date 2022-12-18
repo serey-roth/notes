@@ -2,13 +2,7 @@ import React from 'react'
 import { useAuthContext } from '../context/AuthContext'
 
 const Navbar = () => {
-    const { auth, signOut, onSignedOut } = useAuthContext();
-
-    const handleSignOut = () => {
-        signOut(_, {
-            onSuccess: onSignedOut,
-        })
-    }
+    const { onSignedOut } = useAuthContext();
 
     return (
         <div style={{
@@ -16,7 +10,7 @@ const Navbar = () => {
         }}>
             <button
             type='button'
-            onClick={handleSignOut}
+            onClick={onSignedOut}
             style={{
                 border: 0,
                 backgroundColor: 'inherit',
