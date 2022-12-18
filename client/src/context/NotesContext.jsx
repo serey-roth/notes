@@ -8,7 +8,7 @@ const NotesContext = createContext();
 export const NotesContextProvider = ({ children }) => {
     const [notes, setNotes] = useState([]);
     const [editedNote, setEditedNote] = useState(null);
-    const { isAuthenticated } = useAuthContext();
+    const { isAuthenticated, auth } = useAuthContext();
 
     const onSuccessGet = async (notes) => {
         setNotes(notes);
@@ -28,13 +28,12 @@ export const NotesContextProvider = ({ children }) => {
         setNotes(prevNotes => prevNotes.map(n => n._id === note._id.toString() ? note : n))
     }
 
-
     const { 
         data, 
         isLoading: isLoadingNotes, 
         isFetching: isFetchingNotes, 
         isError: isErrorNotes
-    } = useNotes(onSuccessGet, isAuthenticated);
+    } = useNotes(onSuccessGet, auth, isAuthenticated);
 
     const { 
         mutate: add, 
