@@ -1,19 +1,16 @@
 import passport from "passport";
 
-const requireEmailAuth = passport.authenticate(
-    'local',
-    (error, user,  info) => {
-        if (error) {
-            return req;
+const requireEmailAuth = (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            return next(err);
         }
-
         if (!user) {
-            return res.status(400).send(info);
+            return res.status(422).send(info);
         }
-
         req.user = user;
         next();
-    }
-);
+    })(req, res, next);
+};
 
 export default requireEmailAuth;
