@@ -8,12 +8,11 @@ import session from 'express-session'
 import MongoStore from 'connect-mongo'
 
 import notesRoutes from './routes/notes.js'
-import emailRoutes from './routes/auth/email.js'
+import localRoutes from './routes/auth/local.js'
 import googleRoutes from './routes/auth/google.js'
 
 import googleLogin from './services/googleStrategy.js'
-import emailLogin from './services/emailStrategy.js'
-import jwtLogin from './services/jwtStrategy.js'
+import { localLogin, localRegister } from './services/localStrategy.js'
 
 import User from './models/user.js'
 
@@ -66,14 +65,14 @@ passport.deserializeUser(function(id, done) {
 });
 
 passport.use(googleLogin);
-passport.use(emailLogin);
-passport.use(jwtLogin);
+passport.use('local-login', localLogin);
+passport.use('local-register', localRegister);
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 // set up routes for express 
 app.use('/notes', notesRoutes);
-app.use('/auth', emailRoutes);
+app.use('/auth', localRoutes);
 app.use('/auth', googleRoutes);
 
