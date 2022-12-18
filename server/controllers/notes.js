@@ -4,12 +4,12 @@ import User from "../models/user.js";
 import Note from "../models/note.js"
 
 export const getNotes = async (req, res) => {
-    if (!req.userId) {
+    if (!req.user) {
         return res.status(400).json('User is not authenticated!');
     }
 
     try {
-        const user = await User.findOne({ _id: req.userId });
+        const user = await User.findOne({ _id: req.user.id });
         res.status(200).json(user.notes);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -17,14 +17,14 @@ export const getNotes = async (req, res) => {
 }
 
 export const addNote = async (req, res) => {
-    if (!req.userId) {
+    if (!req.user) {
         return res.status(400).json('User is not authenticated!');
     }
 
     const newNote = new Note(req.body);
 
     try {
-        const user = await User.findOne({ _id: req.userId });
+        const user = await User.findOne({ _id: req.user.id });
         user.notes.push(newNote);
         await user.save();
         res.status(201).json(newNote);
@@ -34,7 +34,7 @@ export const addNote = async (req, res) => {
 }
 
 export const updateNote = async (req, res) => {
-    if (!req.userId) {
+    if (!req.user) {
         return res.status(400).json('User is not authenticated!');
     }
 
@@ -46,7 +46,7 @@ export const updateNote = async (req, res) => {
 
     try {
         const user = await User.findOneAndUpdate(
-            { _id: req.userId, 'notes._id': noteId },
+            { _id: req.user.id, 'notes._id': noteId },
             { $set: { 'notes.$': req.body }},
             { new: true }
         )
@@ -59,7 +59,7 @@ export const updateNote = async (req, res) => {
 }
 
 export const deleteNote = async (req, res) => {
-    if (!req.userId) {
+    if (!req.user) {
         return res.status(400).json('User is not authenticated!');
     }
 
@@ -70,7 +70,7 @@ export const deleteNote = async (req, res) => {
     }
 
     try {
-        const user = await User.findOne({ _id: req.userId });
+        const user = await User.findOne({ _id: req.user.id });
         user.notes.pull(noteId);
         await user.save();
         res.status(200).json({ id: noteId, success: true });
