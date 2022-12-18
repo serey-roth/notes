@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import jwt from 'jsonwebtoken'
+
 import { noteSchema } from "./note.js";
 
 export const userSchema = mongoose.Schema({
@@ -20,10 +22,6 @@ export const userSchema = mongoose.Schema({
         type: String,
         minlength: 6,
         maxlength: 60,
-    },
-    googleId: {
-        type: String,
-        unique: true,
     },
     notes: {
         type: [ noteSchema ],
