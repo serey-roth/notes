@@ -1,12 +1,12 @@
 import { useQuery, useMutation } from 'react-query'
 import { addNote, deleteNote, getNotes, updateNote } from '../../api'
 
-export const useNotes = (onSuccessGet, enabled=false) => {
+export const useNotes = (onSuccessGet, auth, isAuthenticated) => {
     return useQuery(
-        ['notes'],
-        getNotes,
+        ['notes', isAuthenticated, onSuccessGet, auth],
+        () => getNotes(auth.token),
         {
-            enabled,
+            enabled: isAuthenticated === true && auth !== undefined,
             onSuccess: onSuccessGet,
             keepPreviousData: true,
         }
