@@ -1,13 +1,13 @@
 import { Router } from "express";
 
 import { getNotes, addNote, updateNote, deleteNote } from "../controllers/notes.js";
-import requireJWTAuth from '../middleware/requireJWTAuth.js'
+import checkAuthenticated from "../middleware/checkAuthenticated.js";
 
 const router = Router();
 
-router.get('/', requireJWTAuth, getNotes);
-router.post('/', requireJWTAuth, addNote);
-router.patch('/:id', requireJWTAuth, updateNote);
-router.delete('/:id', requireJWTAuth, deleteNote);
+router.get('/', checkAuthenticated, getNotes);
+router.post('/', checkAuthenticated, addNote);
+router.patch('/:id', checkAuthenticated, updateNote);
+router.delete('/:id', checkAuthenticated, deleteNote);
 
 export default router;
