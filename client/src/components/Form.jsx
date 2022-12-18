@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 
 import { useNotesContext } from '../context/NotesContext'
+import { useAuthContext } from '../context/AuthContext'
 
 const initialData = {
     title: '',
@@ -10,6 +11,8 @@ const initialData = {
 }
 
 const Form = () => {
+    const { auth } = useAuthContext();
+
     const { 
         editedNote, 
         onEditedNote,
@@ -30,11 +33,16 @@ const Form = () => {
         e.preventDefault();
 
         if (editedNote) {
-            update({ id: editedNote._id, note: formData }, 
-                { onSuccess: onSuccessUpdate });
+            update(
+                { id: editedNote._id, note: formData, token: auth.token }, 
+                { onSuccess: onSuccessUpdate }
+            );
             onEditedNote(null);
         } else {
-            add(formData, { onSuccess: onSuccessAdd })
+            add(
+                { note: formData, token: auth.token }, 
+                { onSuccess: onSuccessAdd }
+            );
         }
 
         setFormData(initialData);
@@ -98,10 +106,15 @@ const Form = () => {
                     value={formData.description}
                     onChange={handleChange} />
 
-                <button type='button' onClick={handleClear}>
+                <button 
+                type='button' 
+                onClick={handleClear}
+                disabled={!auth}>
                     Clear
                 </button>
-                <button type='submit'>
+                <button 
+                type='submit'
+                disabled={!auth}>
                     {editedNote ? 'Edit' : 'Add'} Note
                 </button>
             </form>
