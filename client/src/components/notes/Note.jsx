@@ -26,8 +26,7 @@ const Note = ({ data }) => {
                         <h3 style={{ flex: '1' }}>{data.title}</h3>
                         <button 
                         type='button'
-                        onClick={() => onEditedNote(data)} 
-                        disabled={!auth}
+                        onClick={() => onEditedNote(data)}
                         >
                             Edit
                         </button>
@@ -36,7 +35,6 @@ const Note = ({ data }) => {
                             { id: data._id, token: auth.token }, 
                             { onSuccess: onSuccessDelete }
                         )}
-                        disabled={!auth}
                         >
                             Delete
                         </button>
