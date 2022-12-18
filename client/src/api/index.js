@@ -24,8 +24,6 @@ export const signIn = (credentials) =>
 export const signUp = (credentials) => 
     decoratePromise(api.post('/auth/signUp', credentials));
 
-export const logOut = () => decoratePromise(api.post('/auth/logOut'));
-
 function attachTokenToHeaders(token) {
     const config = {
         headers: {
