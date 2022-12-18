@@ -5,7 +5,7 @@ import User from "../models/user.js";
 
 dotenv.config();
 
-export const googleLogin = new GoogleStrategy(
+const googleLogin = new GoogleStrategy(
     {
         clientID: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET,
@@ -35,3 +35,5 @@ export const googleLogin = new GoogleStrategy(
         }
     }
 )
+
+export default googleLogin;
