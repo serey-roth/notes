@@ -1,19 +1,18 @@
 import { useState, useContext, createContext, useEffect, useCallback } from 'react'
 
 import { useNotes, useAddNote, useDeleteNote, useUpdateNote } from '../utils/hooks/notes';
+import { useAuthContext } from './AuthContext';
 
 const NotesContext = createContext();
 
 export const NotesContextProvider = ({ children }) => {
     const [notes, setNotes] = useState([]);
     const [editedNote, setEditedNote] = useState(null);
+    const { isAuthenticated } = useAuthContext();
 
-    const { 
-        data, 
-        isLoading: isLoadingNotes, 
-        isFetching: isFetchingNotes, 
-        isError: isErrorNotes
-    } = useNotes();
+    const onSuccessGet = async (notes) => {
+        setNotes(notes);
+    }
 
     const onSuccessAdd = async (note) => {
         setNotes(prevNotes => [...prevNotes, note])
@@ -28,6 +27,14 @@ export const NotesContextProvider = ({ children }) => {
     const onSuccessUpdate = async (note) => {
         setNotes(prevNotes => prevNotes.map(n => n._id === note._id.toString() ? note : n))
     }
+
+
+    const { 
+        data, 
+        isLoading: isLoadingNotes, 
+        isFetching: isFetchingNotes, 
+        isError: isErrorNotes
+    } = useNotes(onSuccessGet, isAuthenticated);
 
     const { 
         mutate: add, 
