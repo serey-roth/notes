@@ -23,7 +23,7 @@ router.get('/google/callback',
         }, 
         process.env.SECRET_KEY,
         { expiresIn: '12h'});
-        res.cookie('x-auth-info', { email });
+        res.cookie('x-auth-info', req.user);
         res.cookie('x-auth-token', token);
         res.redirect(process.env.CLIENT_URL_HOME);
     }
