@@ -16,13 +16,15 @@ export const AuthContextProvider = ({ children }) => {
         mutate: signIn, 
         isLoading: isSigningIn, 
         isError: isErrorSigningIn, 
-        isSuccess: isSignedIn } = useSignIn();
+        isSuccess: isSignedIn 
+    } = useSignIn();
 
     const { 
         mutate: signUp, 
         isLoading: isSigningUp, 
         isError: isErrorSigningUp, 
-        isSuccess: isSignedUp } = useSignUp();
+        isSuccess: isSignedUp 
+    } = useSignUp();
 
     const onSuccessAuth = (auth) => {
         if (auth) {
@@ -39,19 +41,6 @@ export const AuthContextProvider = ({ children }) => {
         localStorage.removeItem('currentUser');
         navigate('/');
     }
-
-    useEffect(() => {
-        const storage = localStorage.getItem('currentUser');
-        if (storage && JSON.parse(storage)) {
-            setAuth(JSON.parse(storage));
-        }
-    },[])
-
-    useEffect(() => {
-        if (auth) {
-            navigate('/notes');
-        }
-    }, [auth]);
 
     useEffect(() => {
         const token = auth?.token;
@@ -77,7 +66,6 @@ export const AuthContextProvider = ({ children }) => {
 
             setIsAuthenticated(true);
             setAuth(info);
-            localStorage.setItem('currentUser', JSON.stringify(info));
         }
     }, [auth])
 
