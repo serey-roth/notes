@@ -7,7 +7,6 @@ export const emailLogin = new LocalStrategy(
     {
         usernameField: 'email',
         passwordField: 'password',
-        session: false,
         passReqToCallback: true,
     },
     async (req, email, password, done) => {
