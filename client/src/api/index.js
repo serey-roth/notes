@@ -6,27 +6,34 @@ const configOptions = {
 
 const api = axios.create(configOptions);
 
-api.interceptors.request.use((req) => {
-    const user = localStorage.getItem('currentUser');
-    if (user && JSON.parse(user)) {
-        req.headers.Authorization = `Bearer ${JSON.parse(user).token}`
+export const getNotes = (token) => 
+    decoratePromise(api.get('/notes', attachTokenToHeaders(token)));
+
+export const addNote = ({ note, token }) => 
+    decoratePromise(api.post('/notes', note, attachTokenToHeaders(token)));
+
+export const updateNote = ({ id, note, token }) => 
+    decoratePromise(api.patch(`/notes/${id}`, note, attachTokenToHeaders(token)));
+
+export const deleteNote = ({ id, token }) => 
+    decoratePromise(api.delete(`/notes/${id}`, attachTokenToHeaders(token)));
+
+export const signIn = (credentials) => 
+    decoratePromise(api.post('/auth/signIn', credentials));
+
+export const signUp = (credentials) => 
+    decoratePromise(api.post('/auth/signUp', credentials));
+
+
+function attachTokenToHeaders(token) {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'x-auth-token': token,
+        }
     }
-    return req;
-})
-
-export const getNotes = () => decoratePromise(api.get('/notes'));
-
-export const addNote = (note) => decoratePromise(api.post('/notes', note));
-
-export const updateNote = ({ id, note }) => decoratePromise(api.patch(`/notes/${id}`, note));
-
-export const deleteNote = (id) => decoratePromise(api.delete(`/notes/${id}`));
-
-export const getNote = (id) => decoratePromise(api.get(`/notes/${id}`));
-
-export const signIn = (credentials) => decoratePromise(api.post('/auth/signIn', credentials));
-
-export const signUp = (credentials) => decoratePromise(api.post('/auth/signUp', credentials));
+    return config;
+}
 
 function decoratePromise(promise) {
     return promise
