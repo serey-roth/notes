@@ -11,8 +11,8 @@ function App() {
             alignItems: 'center',
         }}>
             <Routes>
-                <Route path="/notes" element={<Home />} />
-                <Route index element={<UserAuth />} />
+                <Route path="/home" element={<Home />} />
+                <Route path='/' element={<UserAuth />} />
             </Routes>
         </div>
     )
