@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryCache, QueryClient, QueryClientProvider } from 'react-query'
 import { BrowserRouter } from 'react-router-dom'
+import toast, { Toaster } from 'react-hot-toast'
 
 import App from './App'
 import { AuthContextProvider } from './context/AuthContext'
@@ -14,6 +15,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
                 <AuthContextProvider>
+                    <Toaster />
                     <App />
                 </AuthContextProvider>
             </QueryClientProvider>
