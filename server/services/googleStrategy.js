@@ -28,7 +28,6 @@ const googleLogin = new GoogleStrategy(
                 provider: 'google'
             }).save();
 
-            req.user = newUser;
             return done(null, newUser);
         } catch (error) {
             console.log(error.message)
