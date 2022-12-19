@@ -1,13 +1,17 @@
 import { Router } from "express";
+import passport from "passport";
 
 import { getNotes, addNote, updateNote, deleteNote } from "../controllers/notes.js";
-import checkAuthenticated from "../middleware/checkAuthenticated.js";
 
 const router = Router();
 
-router.get('/', checkAuthenticated, getNotes);
-router.post('/', checkAuthenticated, addNote);
-router.patch('/:id', checkAuthenticated, updateNote);
-router.delete('/:id', checkAuthenticated, deleteNote);
+const jwtMiddleware = (req, res, next) => {
+    passport.authenticate('jwt', { session: false })(req, res, next);
+}
+
+router.get('/', jwtMiddleware, getNotes);
+router.post('/', jwtMiddleware, addNote);
+router.patch('/:id', jwtMiddleware, updateNote);
+router.delete('/:id', jwtMiddleware, deleteNote);
 
 export default router;
