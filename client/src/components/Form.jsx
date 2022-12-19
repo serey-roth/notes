@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 
 import { useNotesContext } from '../context/NotesContext'
-import { useAuthContext } from '../context/AuthContext'
 
 const initialData = {
     title: '',
@@ -11,8 +10,6 @@ const initialData = {
 }
 
 const Form = () => {
-    const { auth } = useAuthContext();
-
     const { 
         editedNote, 
         onEditedNote,
@@ -23,6 +20,7 @@ const Form = () => {
         isAdding,
         isUpdating,
     } = useNotesContext();
+
     const [formData, setFormData] = useState(initialData);
 
     useEffect(() => {
@@ -34,15 +32,12 @@ const Form = () => {
 
         if (editedNote) {
             update(
-                { id: editedNote._id, note: { ...editedNote, ...formData }, token: auth.token }, 
+                { id: editedNote._id, note: { ...editedNote, ...formData }}, 
                 { onSuccess: onSuccessUpdate }
             );
             onEditedNote(null);
         } else {
-            add(
-                { note: formData, token: auth.token }, 
-                { onSuccess: onSuccessAdd }
-            );
+            add(formData, { onSuccess: onSuccessAdd });
         }
 
         setFormData(initialData);
