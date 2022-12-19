@@ -2,13 +2,15 @@ import { useNavigate } from 'react-router-dom'
 import { useState, useContext, createContext, useEffect } from "react";
 import decode from 'jwt-decode'
 
-import { useLogin, useRegister } from "../utils/hooks/auth";
+import { useLogin, useRegister, useWhoAmI, useGoogleLogin } from "../utils/hooks/auth";
+import toast from 'react-hot-toast';
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
     const navigate = useNavigate();
     const [auth, setAuth] = useState(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const { 
         mutate: login, 
@@ -22,19 +24,49 @@ export const AuthContextProvider = ({ children }) => {
         isError: isErrorRegistering, 
     } = useRegister();
 
+    const {
+        mutate: googleLogin,
+        isLoading: isGoogleLoggingIn,
+        isError: isErrorGoogleLogin,
+    } = useGoogleLogin();
+
     const onSuccessAuth = (auth) => {
-        if (auth) {
-            setAuth(auth);
-            localStorage.setItem('currentUser', JSON.stringify(auth.token));
-            navigate('/home');
-        }
+        setAuth(auth);
+        setIsAuthenticated(true);
+        localStorage.setItem('currentUser', JSON.stringify(auth.token));
+        navigate('/home');
     }
 
     const onSignedOut = () => {
         setAuth(null);
+        setIsAuthenticated(false);
         localStorage.removeItem('currentUser');
         navigate('/');
     }
+
+    const onErrorAuth = (error) => {
+        (error) => {
+            toast.error(error.message);
+            onSignedOut();
+        }
+    }
+
+    const onGoogleCallbackResponse = (response) => {
+        googleLogin(response.credential, {
+            onSuccess: onSuccessAuth,
+        });
+    }
+
+    const { 
+        mutate: whoAmI,
+        isLoading: isAuthenticating,
+        isError: isNotAuthenticated,
+        error,
+    } = useWhoAmI(onSuccessAuth, onErrorAuth);
+
+    useEffect(() => {
+        whoAmI();
+    }, [])
 
     useEffect(() => {
         const token = auth?.token;
@@ -57,6 +89,8 @@ export const AuthContextProvider = ({ children }) => {
             isRegistering,
             isErrorLoggingIn,
             isErrorRegistering,
+            isAuthenticated,
+            onGoogleCallbackResponse
         }}>
             { children }
         </AuthContext.Provider>
