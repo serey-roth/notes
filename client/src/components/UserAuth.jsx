@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthContext';
 
+import { useLogin, useRegister } from '../utils/hooks/auth'
+
 const UserAuth = () => {
+    const navigate = useNavigate();
     const [isSignIn, setIsSignIn] = useState(true);
     const [formData, setFormData] = useState({
         firstName: '',
@@ -11,14 +15,14 @@ const UserAuth = () => {
         confirmPassword: '',
     })
 
-    const { 
-        signIn,
-        signUp,
-        onSuccessAuth,
-        isSigningIn,
-        isSigningUp,
-        isErrorSigningIn,
-        isErrorSigningUp
+    const {
+        login, 
+        register,
+        isLoggingIn,
+        isErrorLoggingIn,
+        isRegistering,
+        isErrorRegistering,
+        onSuccessAuth
     } = useAuthContext();
 
     const handleModeChange = () => {
@@ -40,20 +44,15 @@ const UserAuth = () => {
         if (!isSignIn && (password !== confirmPassword)) return;
         
         if (isSignIn) {
-            signIn({
-                email,
-                password,
-            }, {
-                onSuccess: onSuccessAuth,
-            })
+            login({ email, password }, { onSuccess: onSuccessAuth });
         } else {
-            signUp({
+            register({
                 email,
                 password,
                 name: `${firstName} ${lastName}`,
-            }, {
-                onSuccess: onSuccessAuth,
-            })
+            }, 
+            { onSuccess: onSuccessAuth }
+            );
         }
     }
 
@@ -64,13 +63,13 @@ const UserAuth = () => {
             gap: '1rem',
             position: 'relative'
         }} >
-            <h1>{isSignIn ? 'Sign In' : 'Sign Up'}</h1>
-            {isSigningIn && <p>Signing in. Please wait...</p>}
-            {isSigningUp && <p>Signing up. Please wait...</p>}
-            {isErrorSigningIn && <p>Error occurred when signing in!</p>}
-            {isErrorSigningUp && <p>Error occurred when signing up!</p>}
+            <h1>{isSignIn ? 'Log In' : 'Register'}</h1>
+            {isLoggingIn && <p>Logging in user. Please wait...</p>}
+            {isRegistering && <p>Registering user. Please wait...</p>}
+            {isErrorLoggingIn && <p>Error occurred when logging in!</p>}
+            {isErrorRegistering && <p>Error occurred when registering!</p>}
             <a href='http://localhost:5050/auth/google'>
-                Sign In via Google
+                Log in via Google
             </a>
             <form
             style={{ 
@@ -138,7 +137,7 @@ const UserAuth = () => {
                 )}
                 
                 <button type='submit'>
-                    {isSignIn ? 'Sign In' : 'Sign Up'}
+                    {isSignIn ? 'Log In' : 'Register'}
                 </button>
 
                 <span style={{ display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
@@ -151,7 +150,7 @@ const UserAuth = () => {
                         backgroundColor: 'inherit',
                         textDecoration: 'underline',
                     }}>
-                        {isSignIn ? 'Sign Up' : 'Sign In'}
+                        {isSignIn ? 'Register' : 'Log In'}
                     </button>
                 </span>
             </form>
