@@ -15,16 +15,16 @@ api.interceptors.request.use((req) => {
 })
 
 export const getNotes = () => 
-    decoratePromise(api.get('/home/notes'));
+    decoratePromise(api.get('/notes'));
 
 export const addNote = (note) => 
-    decoratePromise(api.post('/home/notes', note));
+    decoratePromise(api.post('/notes', note));
 
 export const updateNote = ({ id, note }) => 
-    decoratePromise(api.patch(`/home/notes/${id}`, note));
+    decoratePromise(api.patch(`/notes/${id}`, note));
 
 export const deleteNote = (id) => 
-    decoratePromise(api.delete(`/home/notes/${id}`));
+    decoratePromise(api.delete(`/notes/${id}`));
 
 export const login = (credentials) => 
     decoratePromise(api.post('/auth/login', credentials));
@@ -32,11 +32,15 @@ export const login = (credentials) =>
 export const register = (credentials) => 
     decoratePromise(api.post('/auth/register', credentials));
 
-export const logout = () =>
-    decoratePromise(api.post('/auth/logout'));
+export const whoAmI = () => decoratePromise(api.post('/auth/whoami'));
+
+export const googleLogin = (credential) => decoratePromise(api.post('/auth/googleLogin', { credential }));
 
 function decoratePromise(promise) {
     return promise
         .then(response => response.data)
-        .catch(error => console.log(error.message));
+        .catch(error => {
+            console.log('hehe');
+            throw new Error(error.message)
+        });
 }
