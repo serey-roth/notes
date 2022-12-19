@@ -16,7 +16,7 @@ const Navbar = () => {
                 backgroundColor: 'inherit',
                 textDecoration: 'underline',
             }}>
-                Sign Out
+                Log Out
             </button>
         </div>
     )
