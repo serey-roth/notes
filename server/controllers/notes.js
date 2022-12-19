@@ -12,6 +12,7 @@ export const getNotes = async (req, res) => {
         const user = await User.findOne({ _id: req.user.id });
         res.status(200).json(user.notes);
     } catch (error) {
+        console.log(error)
         res.status(404).json({ message: error.message });
     }
 }
