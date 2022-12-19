@@ -1,11 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthContext';
 
-import { useLogin, useRegister } from '../utils/hooks/auth'
-
 const UserAuth = () => {
-    const navigate = useNavigate();
     const [isSignIn, setIsSignIn] = useState(true);
     const [formData, setFormData] = useState({
         firstName: '',
@@ -22,7 +19,8 @@ const UserAuth = () => {
         isErrorLoggingIn,
         isRegistering,
         isErrorRegistering,
-        onSuccessAuth
+        onSuccessAuth,
+        onGoogleCallbackResponse
     } = useAuthContext();
 
     const handleModeChange = () => {
@@ -56,6 +54,18 @@ const UserAuth = () => {
         }
     }
 
+    useEffect(() => {
+        /* global google */
+        google.accounts.id.initialize({
+            client_id: import.meta.env.VITE_CLIENT_ID,
+            callback: onGoogleCallbackResponse
+        })
+        google.accounts.id.renderButton(
+            document.getElementById('googleLoginDiv'),
+            { theme: 'outline', size: 'large' }
+        );
+    }, [])
+
     return (
         <div
         style={{ 
@@ -68,9 +78,7 @@ const UserAuth = () => {
             {isRegistering && <p>Registering user. Please wait...</p>}
             {isErrorLoggingIn && <p>Error occurred when logging in!</p>}
             {isErrorRegistering && <p>Error occurred when registering!</p>}
-            <a href='http://localhost:5050/auth/google'>
-                Log in via Google
-            </a>
+            <div id='googleLoginDiv'></div>
             <form
             style={{ 
                 display: 'flex',
