@@ -1,10 +1,10 @@
 import { useMutation } from "react-query"
-import { signIn, signUp } from "../../api"
+import { login, logout, register } from "../../api"
 
-export const useSignIn = () => {
-    return useMutation(signIn)
+export const useLogin = () => {
+    return useMutation(login)
 }
 
-export const useSignUp = () => {
-    return useMutation(signUp);
+export const useRegister = () => {
+    return useMutation(register);
 }
