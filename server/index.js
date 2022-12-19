@@ -7,12 +7,10 @@ import passport from 'passport'
 import morgan from 'morgan'
 
 import notesRoutes from './routes/notes.js'
-import localRoutes from './routes/auth/local.js'
-import googleRoutes from './routes/auth/google.js'
+import authRoutes from './routes/auth.js'
 
-import googleLogin from './services/googleStrategy.js'
 import { localLogin, localRegister } from './services/localStrategy.js'
-import jwtLogin from './services/jwtStrategy.js'
+import jwtAuth from './services/jwtStrategy.js'
 
 // general setup
 dotenv.config();
@@ -33,16 +31,14 @@ app.use(bodyParser.json({ limit: '30mb', extended: true }));
 
 passport.use('local-login', localLogin);
 passport.use('local-register', localRegister);
-passport.use(googleLogin);
-passport.use(jwtLogin);
+passport.use('jwt-auth', jwtAuth);
 
 // set up passport for authentication
 app.use(passport.initialize());
 
 // set up routes for express 
-app.use('/home/notes', notesRoutes);
-app.use('/auth', localRoutes);
-app.use('/auth', googleRoutes);
+app.use('/notes', notesRoutes);
+app.use('/auth', authRoutes);
 
 // connect to MongoDB server
 const PORT = process.env.PORT || 5050;
