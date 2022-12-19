@@ -22,10 +22,6 @@ const Form = () => {
     } = useNotesContext();
 
     const [formData, setFormData] = useState(initialData);
-
-    useEffect(() => {
-        if (editedNote) setFormData(editedNote)
-    }, [editedNote])
     
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -53,6 +49,10 @@ const Form = () => {
     const handleClear = () => {
         setFormData(initialData);
     }
+
+    useEffect(() => {
+        if (editedNote) setFormData(editedNote)
+    }, [editedNote])
 
     return (
         <div
