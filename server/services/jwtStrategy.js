@@ -4,7 +4,7 @@ import User from '../models/user.js';
 
 const jwtLogin = new JwtStrategy(
     {
-        jwtFromRequest: ExtractJwt.fromHeader('x-auth-token'),
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
         secretOrKey: process.env.SECRET_KEY,
     },
     async (payload, done) => {
