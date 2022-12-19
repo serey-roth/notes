@@ -1,6 +1,8 @@
 import { useState, useContext, createContext, useEffect } from 'react'
+import { toast } from 'react-hot-toast';
 
 import { useNotes, useAddNote, useDeleteNote, useUpdateNote } from '../utils/hooks/notes';
+import { useAuthContext } from './AuthContext';
 
 const NotesContext = createContext();
 
@@ -8,21 +10,28 @@ export const NotesContextProvider = ({ children }) => {
     const [notes, setNotes] = useState([]);
     const [editedNote, setEditedNote] = useState(null);
 
-    const onSuccessGet = async (notes) => {
+    const { isAuthenticated, onSignedOut } = useAuthContext();
+
+    const onSuccessGet = (notes) => {
         setNotes(notes);
     }
 
-    const onSuccessAdd = async (note) => {
+    const onErrorGet = (error) => {
+        onSignedOut();
+        toast(error.message)
+    } 
+
+    const onSuccessAdd = (note) => {
         setNotes(prevNotes => [...prevNotes, note])
     }
 
-    const onSuccessDelete = async (result) => {
+    const onSuccessDelete = (result) => {
         if (result.success) {
             setNotes(prevNotes => prevNotes.filter(prevNote => prevNote._id !== result.id));
         }
     }
 
-    const onSuccessUpdate = async (note) => {
+    const onSuccessUpdate = (note) => {
         setNotes(prevNotes => prevNotes.map(n => n._id === note._id.toString() ? note : n))
     }
 
@@ -31,7 +40,7 @@ export const NotesContextProvider = ({ children }) => {
         isLoading: isLoadingNotes, 
         isFetching: isFetchingNotes, 
         isError: isErrorNotes
-    } = useNotes(onSuccessGet);
+    } = useNotes(onSuccessGet, onErrorGet, isAuthenticated);
 
     const { 
         mutate: add, 
