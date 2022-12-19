@@ -1,8 +1,11 @@
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import dotenv from 'dotenv'
 
 import User from '../models/user.js';
 
-const jwtLogin = new JwtStrategy(
+dotenv.config();
+
+const jwtAuth = new JwtStrategy(
     {
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
         secretOrKey: process.env.SECRET_KEY,
@@ -14,12 +17,12 @@ const jwtLogin = new JwtStrategy(
             if (user) {
                 return done(null, user);
             } else {
-                return done(null, false);
+                return done(null, false, { message: 'Invalid credentials'});
             }
-        } catch (err) {
-            return done(err, false);
+        } catch (error) {
+            return done(error);
         }
     },
 );
 
-export default jwtLogin;
+export default jwtAuth;

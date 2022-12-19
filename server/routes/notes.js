@@ -6,7 +6,7 @@ import { getNotes, addNote, updateNote, deleteNote } from "../controllers/notes.
 const router = Router();
 
 const jwtMiddleware = (req, res, next) => {
-    passport.authenticate('jwt', { session: false })(req, res, next);
+    passport.authenticate('jwt-auth', { session: false })(req, res, next);
 }
 
 router.get('/', jwtMiddleware, getNotes);
