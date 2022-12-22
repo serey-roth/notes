@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 
 import Home from './pages/Home';
-import UserAuth from './components/UserAuth';
+import Auth from './components/auth/ConnectedForm';
 
 function App() {
     return (
@@ -12,7 +12,7 @@ function App() {
         }}>
             <Routes>
                 <Route path="/home" element={<Home />} />
-                <Route path='/' element={<UserAuth />} />
+                <Route path='/' element={<Auth/>} />
             </Routes>
         </div>
     )
