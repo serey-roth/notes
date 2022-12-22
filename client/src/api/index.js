@@ -40,7 +40,6 @@ function decoratePromise(promise) {
     return promise
         .then(response => response.data)
         .catch(error => {
-            console.log('hehe');
             throw new Error(error.message)
         });
 }
