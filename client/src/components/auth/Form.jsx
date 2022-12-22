@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../context/AuthContext';
+import React, { useState } from 'react'
 
-const UserAuth = () => {
-    const [isSignIn, setIsSignIn] = useState(true);
+const Form = ({ login, onSubmit, onSwitchMode }) => {
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -11,21 +8,6 @@ const UserAuth = () => {
         password: '',
         confirmPassword: '',
     })
-
-    const {
-        login, 
-        register,
-        isLoggingIn,
-        isErrorLoggingIn,
-        isRegistering,
-        isErrorRegistering,
-        onSuccessAuth,
-        onGoogleCallbackResponse
-    } = useAuthContext();
-
-    const handleModeChange = () => {
-        setIsSignIn(prevMode => !prevMode);
-    }
 
     const handleChange = (e) => {
         setFormData(prevData => ({
@@ -36,35 +18,9 @@ const UserAuth = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
-        const { firstName, lastName, email, password, confirmPassword } = formData;
 
-        if (!isSignIn && (password !== confirmPassword)) return;
-        
-        if (isSignIn) {
-            login({ email, password }, { onSuccess: onSuccessAuth });
-        } else {
-            register({
-                email,
-                password,
-                name: `${firstName} ${lastName}`,
-            }, 
-            { onSuccess: onSuccessAuth }
-            );
-        }
+        onSubmit(formData);
     }
-
-    useEffect(() => {
-        /* global google */
-        google.accounts.id.initialize({
-            client_id: import.meta.env.VITE_CLIENT_ID,
-            callback: onGoogleCallbackResponse
-        })
-        google.accounts.id.renderButton(
-            document.getElementById('googleLoginDiv'),
-            { theme: 'outline', size: 'large' }
-        );
-    }, [])
 
     return (
         <div
@@ -73,11 +29,7 @@ const UserAuth = () => {
             gap: '1rem',
             position: 'relative'
         }} >
-            <h1>{isSignIn ? 'Log In' : 'Register'}</h1>
-            {isLoggingIn && <p>Logging in user. Please wait...</p>}
-            {isRegistering && <p>Registering user. Please wait...</p>}
-            {isErrorLoggingIn && <p>Error occurred when logging in!</p>}
-            {isErrorRegistering && <p>Error occurred when registering!</p>}
+            <h1>{login ? 'Log In' : 'Register'}</h1>
             <div id='googleLoginDiv'></div>
             <form
             style={{ 
@@ -86,7 +38,7 @@ const UserAuth = () => {
                 gap: '0.5rem',
             }} 
             onSubmit={handleSubmit}>
-                {!isSignIn && (
+                {!login && (
                     <>
                         <label htmlFor='firstName'>Title:</label>
                         <input 
@@ -130,7 +82,7 @@ const UserAuth = () => {
                     value={formData.password}
                     onChange={handleChange} />
 
-                {!isSignIn && (
+                {!login && (
                     <>
                     <label htmlFor='confirmPassword'>Confirm Password:</label>
                     <input
@@ -145,20 +97,20 @@ const UserAuth = () => {
                 )}
                 
                 <button type='submit'>
-                    {isSignIn ? 'Log In' : 'Register'}
+                    {login ? 'Log In' : 'Register'}
                 </button>
 
                 <span style={{ display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
-                    <p>{isSignIn ? "Don't have" : 'Already have'} an account?</p>
+                    <p>{login ? "Don't have" : 'Already have'} an account?</p>
                     <button 
                     type='button'
-                    onClick={handleModeChange}
+                    onClick={onSwitchMode}
                     style={{
                         border: 0,
                         backgroundColor: 'inherit',
                         textDecoration: 'underline',
                     }}>
-                        {isSignIn ? 'Register' : 'Log In'}
+                        {login ? 'Register' : 'Log In'}
                     </button>
                 </span>
             </form>
@@ -166,4 +118,4 @@ const UserAuth = () => {
     )
 }
 
-export default UserAuth
+export default Form
