@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { MdDone, MdClose } from 'react-icons/md'
+import { MdDone, MdClose, MdError } from 'react-icons/md'
 import { AiOutlineClear } from 'react-icons/ai'
 import StackedButtonsGroup from './StackedButtonsGroup'
 
@@ -10,25 +10,59 @@ const initialData = {
 
 const NoteEditor = ({ editedNote, onSubmit, onCancel }) => {
     const [formData, setFormData] = useState(editedNote);
+    const [error, setError] = useState({
+        title: false,
+        description: false,
+    })
 
-    console.log(formData)
     const handleChange = (e) => {
         setFormData(prevData => ({
             ...prevData,
             [e.target.name]: e.target.value,
         }))
+
+        if (e.target.value) {
+            setError(prevError => ({
+                ...prevError,
+                [e.target.name]: false
+            }))
+        } else {
+            setError(prevError => ({
+                ...prevError,
+                [e.target.name]: true
+            }))
+        }
     }
 
     const handleClear = () => {
-        
         setFormData(initialData);
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        onSubmit(formData);
-        setFormData(initialData);
+        if (formData.title && formData.description) {
+            onSubmit(formData);
+            setFormData(initialData);
+            return;
+        } 
+
+        const error = {
+            title: false,
+            description: false,
+        }
+
+        if (!formData.title) {
+            error.title = true;
+            toast.error('Title is empty!', { duration: 3000 });
+        }
+
+        if (!formData.description) {
+            error.description = true;
+            toast.error('Description is empty!', { duration: 3000 });
+        }
+        
+        setError(error);
     }
 
     return (

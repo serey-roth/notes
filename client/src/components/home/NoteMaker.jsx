@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import { MdAdd, MdMenu } from 'react-icons/md'
+import { MdAdd, MdError } from 'react-icons/md'
 import { AiOutlineClear } from 'react-icons/ai'
+import toast from 'react-hot-toast'
+
 import StackedButtonsGroup from './StackedButtonsGroup'
 
 const initialData = {
@@ -10,12 +12,28 @@ const initialData = {
 
 const NoteMaker = ({ onSubmit }) => {
     const [formData, setFormData] = useState(initialData);
+    const [error, setError] = useState({
+        title: false,
+        description: false,
+    })
 
     const handleChange = (e) => {
         setFormData(prevData => ({
             ...prevData,
             [e.target.name]: e.target.value,
-        }))
+        }));
+
+        if (e.target.value) {
+            setError(prevError => ({
+                ...prevError,
+                [e.target.name]: false
+            }))
+        } else {
+            setError(prevError => ({
+                ...prevError,
+                [e.target.name]: true
+            }))
+        }
     }
 
     const handleClear = () => {
@@ -25,8 +43,28 @@ const NoteMaker = ({ onSubmit }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        onSubmit(formData);
-        setFormData(initialData);
+        if (formData.title && formData.description) {
+            onSubmit(formData);
+            setFormData(initialData);
+            return;
+        } 
+        
+        const error = {
+            title: false,
+            description: false,
+        }
+
+        if (!formData.title) {
+            error.title = true;
+            toast.error('Title is empty!', { duration: 3000 });
+        }
+
+        if (!formData.description) {
+            error.description = true;
+            toast.error('Description is empty!', { duration: 3000 });
+        }
+        
+        setError(error);
     }
 
     return (
@@ -44,6 +82,9 @@ const NoteMaker = ({ onSubmit }) => {
                 className='py-2 px-2 text-2xl appearance-none outline-none drop-shadow-2xl
                 border-b-2 rounded-lg'
             />
+            {error.title && (
+                <MdError size={20} className='fixed right-4 top-4 text-red-600 animate-pulse' />
+            )}
 
             <textarea
                 name='description'
@@ -57,6 +98,9 @@ const NoteMaker = ({ onSubmit }) => {
                 className='px-4 py-6 leading-relaxed text-lg flex-1 appearance-none outline-none resize-none
                 drop-shadow-2xl rounded-lg'
             />
+            {error.description && (
+                <MdError size={20} className='fixed right-4 top-20 text-red-600 animate-pulse'/>
+            )}
 
             <div className='flex flex-col-reverse gap-1 h-[150px] fixed bottom-4 right-4'>
                 <StackedButtonsGroup
