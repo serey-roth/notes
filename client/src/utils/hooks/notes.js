@@ -1,27 +1,94 @@
 import { useQuery, useMutation } from 'react-query'
 import { addNote, deleteNote, getNotes, updateNote } from '../../api'
 
-export const useNotes = (onSuccessGet, onErrorGet, isAuthenticated) => {
-    return useQuery(
-        ['notes'],
+export const useNotes = () => {
+    const {
+        data,
+        isLoading: isObtainingNotes,
+        isError: isErrorObtainingNotes,
+        isSuccess: isObtained,
+        error: obtainingError,
+        ...rest
+    } = useQuery(
+        ['fetching notes'],
         getNotes,
         {
-            enabled: isAuthenticated,
-            onSuccess: onSuccessGet,
-            onError: onErrorGet,
             keepPreviousData: true,
         }
     )
+
+    return {
+        data,
+        isObtainingNotes,
+        isErrorObtainingNotes,
+        isObtained,
+        obtainingError,
+        ...rest
+    }
 }
 
 export const useAddNote = () => {
-    return useMutation(addNote);
+    const { 
+        mutate: add,
+        mutateAsync: addAsync,
+        isLoading: isAdding,
+        isError:  isErrorAdding,
+        isSuccess: isAdded,
+        error: addError,
+        ...rest
+    } =  useMutation({ mutationFn: addNote });
+
+    return {
+        add,
+        addAsync,
+        isAdded,
+        isAdding,
+        isErrorAdding,
+        addError,
+        ...rest
+    }
 }
 
 export const useDeleteNote = () => {
-    return useMutation(deleteNote);
+    const { 
+        mutate: remove,
+        mutateAsync: removeAsync,
+        isLoading: isRemoving,
+        isError:  isErrorRemoving,
+        isSuccess: isRemoved,
+        error: removeError,
+        ...rest
+    } =  useMutation({ mutationFn: deleteNote });
+
+    return {
+        remove,
+        removeAsync,
+        isRemoved,
+        isRemoving,
+        isErrorRemoving,
+        removeError,
+        ...rest
+    }
 }
 
 export const useUpdateNote = () => {
-    return useMutation(updateNote);
+    const { 
+        mutate: update,
+        mutateAsync: updateAsync,
+        isLoading: isUpdating,
+        isError:  isErrorUpdating,
+        isSuccess: isUpdated,
+        error: updateError,
+        ...rest
+    } =  useMutation({ mutationFn: updateNote });
+
+    return {
+        update,
+        updateAsync,
+        isUpdated,
+        isUpdating,
+        isErrorUpdating,
+        updateError,
+        ...rest
+    }
 }
