@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { MdAdd } from 'react-icons/md'
 
 import NoteManager from '../components/home/NoteManager'
 import Notes from '../components/home/Notes'
@@ -45,6 +46,13 @@ const Home = () => {
                 onUpdate={handleUpdateNote}
                 onDelete={handleDeleteNote}
                 />
+            {viewedNote && <button
+                type='button'
+                className='rounded-l-full rounded-r-full bg-white p-2 drop-shadow-xl text-fuchsia-500
+                absolute top-7 left-[18rem] hover:animate-pulse'
+                onClick={() => setViewedNote(null)}>
+                    <MdAdd size={18} />
+            </button>}
         </div>
     )
 }
