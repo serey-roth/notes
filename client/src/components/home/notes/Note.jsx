@@ -1,9 +1,6 @@
 import React from 'react'
-import { useNotesContext } from '../../context/NotesContext'
 
-const Note = ({ data }) => {
-    const { onEditedNote, remove, onSuccessDelete } = useNotesContext();
-
+const Note = ({ data, onEdit, onDelete }) => {
     return (
         <>
             {data && (
@@ -24,12 +21,12 @@ const Note = ({ data }) => {
                         <h3 style={{ flex: '1' }}>{data.title}</h3>
                         <button 
                         type='button'
-                        onClick={() => onEditedNote(data)}
+                        onClick={() => onEdit(data)}
                         >
                             Edit
                         </button>
                         <button type='button'
-                        onClick={() => remove(data._id, { onSuccess: onSuccessDelete })}
+                        onClick={() => onDelete(data._id)}
                         >
                             Delete
                         </button>
