@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { format } from 'date-fns'
+import { MdAdd, MdMenu, MdEdit } from 'react-icons/md'
+import { AiOutlineClear } from 'react-icons/ai'
 
 const initialData = {
     title: '',
-    date: format(new Date(), 'yyyy-MM-dd'),
     description: '',
 }
 
-const Form = ({ editedNote, onSubmit }) => {
+const NoteViewer = ({ editedNote, onSubmit }) => {
     const [formData, setFormData] = useState(initialData);
 
     const handleChange = (e) => {
@@ -33,62 +33,57 @@ const Form = ({ editedNote, onSubmit }) => {
     }, [editedNote])
 
     return (
-        <div
-        style={{ 
-            display: 'grid',
-            gap: '1rem',
-            position: 'relative'
-        }} >
-            <h1>Make a Note</h1>
-            <form
-            style={{ 
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.5rem',
-            }} 
+        <form
+            className='flex flex-col p-2 gap-2 drop-shadow-xl flex-1
+                    shadow-xl rounded-lg '
             onSubmit={handleSubmit}>
-                <label htmlFor='title'>Title:</label>
-                <input 
-                    type='text' 
-                    name='title' 
-                    id='title' 
-                    placeholder='Enter a title' 
-                    required
-                    value={formData.title}
-                    onChange={handleChange} />
+            <input
+                type='text'
+                name='title'
+                id='title'
+                placeholder='Title:'
+                required
+                value={formData.title}
+                onChange={handleChange}
+                className='py-2 px-2 text-2xl appearance-none outline-none
+                    border-b-2'
+            />
+            <textarea
+                name='description'
+                id='description'
+                placeholder='Capture the moment...'
+                rows={20}
+                cols={50}
+                required
+                value={formData.description}
+                onChange={handleChange}
+                className='px-4 py-6 leading-relaxed text-lg flex-1 appearance-none outline-none resize-none'
+            />
 
-                <label htmlFor='date'>Date:</label>
-                <input 
-                    type='date' 
-                    name='date' 
-                    id='date'
-                    value={formData.date}
-                    required
-                    onChange={handleChange} />
-
-                <label htmlFor='description'>Description:</label>
-                <textarea 
-                    name='description' 
-                    id='description'
-                    placeholder='Enter a note'
-                    rows={20}
-                    cols={50}
-                    required
-                    value={formData.description}
-                    onChange={handleChange} />
-
-                <button 
-                type='button' 
-                onClick={handleClear}>
-                    Clear
+            <div className='flex flex-col-reverse gap-1 fixed bottom-4 right-4 group h-[100px]'>
+                <button
+                    className='p-2 rounded-full bg-slate-400 text-white drop-shadow-xl shadow-gray-300 z-10'
+                    type='button'>
+                    <MdMenu size={20} />
                 </button>
-                <button 
-                type='submit'>
-                    {editedNote ? 'Edit' : 'Add'} Note
+                <button
+                    className='p-2 rounded-full bg-indigo-400 text-white drop-shadow-xl shadow-gray-300
+                        opacity-0 group-hover:opacity-100 delay-75 ease-in-out duration-100 fixed group-hover:bottom-14
+                        hover:animate-spin hover:drop-shadow-none'
+                    type='submit'>
+                    {editedNote ? <MdEdit size={20} /> : <MdAdd size={20} />}
                 </button>
-            </form>
-        </div>
+                <button
+                    className='p-2 rounded-full bg-rose-400 text-white drop-shadow-xl shadow-gray-300
+                        opacity-0 group-hover:opacity-100 delay-100 ease-in-out duration-100 fixed
+                        group-hover:bottom-24 hover:animate-spin hover:drop-shadow-none'
+                    type='button'
+                    onClick={handleClear}>
+                    <AiOutlineClear size={20} />
+                </button>
+            </div>
+        </form>
     )
 }
 
-export default Form
+export default NoteViewer
