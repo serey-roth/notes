@@ -32,8 +32,6 @@ export const login = (credentials) =>
 export const register = (credentials) => 
     decoratePromise(api.post('/auth/register', credentials));
 
-export const whoAmI = () => decoratePromise(api.post('/auth/whoami'));
-
 export const googleLogin = (credential) => decoratePromise(api.post('/auth/googleLogin', { credential }));
 
 function decoratePromise(promise) {

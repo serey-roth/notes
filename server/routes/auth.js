@@ -67,12 +67,6 @@ router.post(
 );
 
 router.post(
-    '/whoami',
-    middleware('jwt-auth'),
-    successCallback
-)
-
-router.post(
     '/googleLogin',
     googleMiddleware,
     successCallback

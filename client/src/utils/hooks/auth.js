@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom"
 import { 
     login as signIn, 
     register as signUp, 
-    whoAmI, 
     googleLogin as googleSignIn
 } from "../../api"
 
@@ -67,38 +66,6 @@ export const useRegister = () => {
         isRegistered,
         registrationError,
         ...rest
-    }
-}
-
-export const useValidateUser = () => {
-    const navigate = useNavigate();
-    const { 
-        mutate: user,
-        isLoading: isValidatingUser,
-        isError: isInvalidUser,
-        error: validationError,
-        isSuccess: isValidUser,
-        ...rest
-    } = useMutation({
-        mutationFn: whoAmI,
-    });
-
-    user();
-
-    useEffect(() => {
-        if (isValidUser) navigate('/home');
-        else if (isInvalidUser) {
-            navigate('/');
-        }
-    }, [isValidUser, isInvalidUser,])
-
-    return {
-        user,
-        isValidatingUser,
-        isInvalidUser,
-        validationError,
-        isValidUser,
-        ...rest,
     }
 }
 
