@@ -1,8 +1,15 @@
 import React from 'react'
-import { useAuthContext } from '../context/AuthContext'
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-    const { onSignedOut } = useAuthContext();
+    const navigate = useNavigate();
+
+    const logout = () => {
+        localStorage.removeItem('currentUser');
+        navigate('/');
+        toast('Logged out!')
+    }
 
     return (
         <div style={{
@@ -10,7 +17,7 @@ const Navbar = () => {
         }}>
             <button
             type='button'
-            onClick={onSignedOut}
+            onClick={logout}
             style={{
                 border: 0,
                 backgroundColor: 'inherit',
