@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { toast } from 'react-hot-toast';
 
-import { useLogin, useRegister, useGoogleLogin, notifyAuth } from '../../utils/hooks/auth';
+import { useLogin, useRegister, useGoogleLogin } from '../../utils/hooks/auth';
+import { notifyPromise } from '../../utils';
 import Form from './Form'
 
 const ConnectedForm = () => {
@@ -31,11 +31,11 @@ const ConnectedForm = () => {
                     name: `${firstName} ${lastName}`,
                 });
             }
-            notifyAuth(authPromise);
+            notifyPromise(authPromise, 'Please wait...', 'Logged In!');
             const auth = await authPromise;
             localStorage.setItem('currentUser', JSON.stringify(auth.token));
         } catch (error) {
-            toast.error(error.message);
+            console.error(error);
         } 
     }
 
@@ -46,11 +46,11 @@ const ConnectedForm = () => {
             callback: async (response) => {
                 try {
                     const authPromise = googleLoginAsync(response.credential)
-                    notifyAuth(authPromise);
+                    notifyPromise(authPromise, 'Please wait...', 'Logged In!');
                     const auth = await authPromise;
                     localStorage.setItem('currentUser', JSON.stringify(auth.token));
                 } catch (error) {
-                    toast.error(error.message);
+                    console.error(error.message);
                 }
             }
         })
