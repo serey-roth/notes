@@ -1,4 +1,6 @@
 import React from 'react'
+import { HiDocumentText } from 'react-icons/hi'
+
 import { notifyPromise } from '../../../utils';
 import { useDeleteNote } from '../../../utils/hooks/notes'
 import Note from './Note'
@@ -20,20 +22,18 @@ const Notes = ({ notes, onSetNoteForEdit, onDelete }) => {
     }
 
     return (
-        <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.5rem',
-        }}>
-            <h1>Notes ({notes?.length})</h1>
-            {notes?.map((note) => (
-                <Note 
-                    key={note._id}
-                    data={note} 
-                    onEdit={onSetNoteForEdit}
-                    onDelete={handleDeleteNote}
-                />
-            ))}
+        <div className='flex flex-col w-full max-w-[350px] bg-gradient-to-br from-indigo-500 p-4
+        border-r-2'>
+            <div className='flex flex-col gap-2 mb-4 flex-1 text-gray-200'>
+                {notes?.map((note) => (
+                    <span
+                        key={note._id}
+                        className='flex items-center cursor-pointer capitalize'>
+                        <HiDocumentText size={20} />
+                        <h3 className='truncate text-lg pl-2 font-semibold leading-relaxed'>{note.title}</h3>
+                    </span>
+                ))}
+            </div>
         </div>
     )
 }
