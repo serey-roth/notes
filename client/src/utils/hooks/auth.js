@@ -1,5 +1,4 @@
 import { useEffect } from "react"
-import { toast } from "react-hot-toast"
 import { useMutation } from "react-query"
 import { useNavigate } from "react-router-dom"
 import { 
@@ -130,19 +129,4 @@ export const useGoogleLogin = () => {
         isGoogleLoggedIn,
         googleLogInError,
     }
-}
-
-export function notifyAuth(authPromise) {
-    toast.promise(authPromise, {
-        loading: 'Please wait...',
-        error: (error) => error.message,
-        success: 'Logged In!'
-    }, {
-        style: {
-            minWidth: '250px'
-        },
-        success: {
-            duration: 1000,
-        }
-    })
 }
