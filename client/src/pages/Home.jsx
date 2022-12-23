@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react'
 
-import Navbar from '../components/Navbar'
 import Notes from '../components/home/notes/Notes'
-import Form from '../components/home/ConnectedForm'
+import NoteViewer from '../components/home/NoteViewer'
 import { useNotes } from '../utils/hooks/notes'
 
 const Home = () => {
     const [notes, setNotes] = useState([]);
-    const [editedNote, setEditedNote] = useState(null);
+    const [viewedNote, setViewedNote] = useState(null);
 
     const { data } = useNotes();
 
-    const handleSetNoteForEdit = (note) => {
-        setEditedNote(note);
+    const handleSetNoteForView = (note) => {
+        setViewedNote(note);
     }
 
     const handleAddNote = (note) => {
@@ -34,17 +33,17 @@ const Home = () => {
     }, [data])
 
     return (
-        <div className='flex fixed inset-0'>
+        <div className='flex fixed inset-0 bg-gradient-to-r from-fuchsia-400'>
             <Notes 
                 notes={notes} 
-                onSetNoteForEdit={handleSetNoteForEdit} 
-                onDelete={handleDeleteNote}
+                onNoteForView={handleSetNoteForView} 
                 />
-            <Form 
-                editedNote={editedNote} 
-                onSetNoteForEdit={handleSetNoteForEdit} 
+            <NoteViewer
+                viewedNote={viewedNote} 
+                onNoteForView={handleSetNoteForView}
                 onAdd={handleAddNote}
                 onUpdate={handleUpdateNote}
+                onDelete={handleDeleteNote}
                 />
         </div>
     )
