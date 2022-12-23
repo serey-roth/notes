@@ -34,30 +34,18 @@ const Home = () => {
     }, [data])
 
     return (
-        <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100%'
-        }}>
-            <Navbar />
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)'
-            }}>
-                <Notes 
-                    notes={notes} 
-                    onSetNoteForEdit={handleSetNoteForEdit} 
-                    onDelete={handleDeleteNote}
-                    />
-                <Form 
-                    editedNote={editedNote} 
-                    onSetNoteForEdit={handleSetNoteForEdit} 
-                    onAdd={handleAddNote}
-                    onUpdate={handleUpdateNote}
-                    />
-            </div>
+        <div className='flex fixed inset-0'>
+            <Notes 
+                notes={notes} 
+                onSetNoteForEdit={handleSetNoteForEdit} 
+                onDelete={handleDeleteNote}
+                />
+            <Form 
+                editedNote={editedNote} 
+                onSetNoteForEdit={handleSetNoteForEdit} 
+                onAdd={handleAddNote}
+                onUpdate={handleUpdateNote}
+                />
         </div>
     )
 }
