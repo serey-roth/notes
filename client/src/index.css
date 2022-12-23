@@ -17,3 +17,7 @@ input, textarea, button {
   font-family: inherit;
   padding: 0.2rem;
 }
+
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
