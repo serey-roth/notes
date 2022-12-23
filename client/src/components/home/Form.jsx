@@ -1,43 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 
-import { useNotesContext } from '../context/NotesContext'
-
 const initialData = {
     title: '',
     date: format(new Date(), 'yyyy-MM-dd'),
     description: '',
 }
 
-const Form = () => {
-    const { 
-        editedNote, 
-        onEditedNote,
-        add,
-        onSuccessAdd,
-        update,
-        onSuccessUpdate,
-        isAdding,
-        isUpdating,
-    } = useNotesContext();
-
+const Form = ({ editedNote, onSubmit }) => {
     const [formData, setFormData] = useState(initialData);
-    
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        if (editedNote) {
-            update(
-                { id: editedNote._id, note: { ...editedNote, ...formData }}, 
-                { onSuccess: onSuccessUpdate }
-            );
-            onEditedNote(null);
-        } else {
-            add(formData, { onSuccess: onSuccessAdd });
-        }
-
-        setFormData(initialData);
-    }
 
     const handleChange = (e) => {
         setFormData(prevData => ({
@@ -47,6 +18,13 @@ const Form = () => {
     }
 
     const handleClear = () => {
+        setFormData(initialData);
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        onSubmit(formData);
         setFormData(initialData);
     }
 
@@ -62,8 +40,6 @@ const Form = () => {
             position: 'relative'
         }} >
             <h1>Make a Note</h1>
-            {isAdding && <p>Adding new note...</p>}
-            {isUpdating && <p>Updating note...</p>}
             <form
             style={{ 
                 display: 'flex',
