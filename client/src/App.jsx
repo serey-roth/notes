@@ -46,11 +46,7 @@ function App() {
     })
 
     return (
-        <div
-        style={{
-            display: 'flex',
-            alignItems: 'center',
-        }}>
+        <div className='w-screen min-h-screen'>
             <Routes>
                 <Route path="/home" element={<Home />} />
                 <Route path='/' element={<Auth/>} />
