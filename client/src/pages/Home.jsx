@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
-import Notes from '../components/home/notes/Notes'
-import NoteViewer from '../components/home/NoteViewer'
+import NoteManager from '../components/home/NoteManager'
+import Notes from '../components/home/Notes'
 import { useNotes } from '../utils/hooks/notes'
 
 const Home = () => {
@@ -38,7 +38,7 @@ const Home = () => {
                 notes={notes} 
                 onNoteForView={handleSetNoteForView} 
                 />
-            <NoteViewer
+            <NoteManager
                 viewedNote={viewedNote} 
                 onNoteForView={handleSetNoteForView}
                 onAdd={handleAddNote}
