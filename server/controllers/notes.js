@@ -46,7 +46,12 @@ export const getNote = async (req, res) => {
     }
 
     try {
-        const note = await User.findOne({ _id: req.user.id, 'notes._id': noteId });
+        const note = await User.findOne({ _id: req.user.id })
+        .then((user) => {
+            const note = user.notes?.find(note => note._id.toString() === noteId);
+            return note;
+        });
+
         res.status(200).json(note);
     } catch (error) {
         res.status(404).send(error.message);
