@@ -17,6 +17,9 @@ api.interceptors.request.use((req) => {
 export const getNotes = () => 
     decoratePromise(api.get('/notes'));
 
+export const getNote = (id) => 
+    decoratePromise(api.get(`/notes/${id}`));
+
 export const addNote = (note) => 
     decoratePromise(api.post('/notes', note));
 
