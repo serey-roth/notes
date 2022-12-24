@@ -34,6 +34,25 @@ export const addNote = async (req, res) => {
     }
 }
 
+export const getNote = async (req, res) => {
+    if (!req.user) {
+        return res.status(400).json('User is not authenticated!');
+    }
+
+    const { id: noteId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(noteId)) {
+        return res.status(404).send('No note with this id');
+    }
+
+    try {
+        const note = await User.findOne({ _id: req.user.id, 'notes._id': noteId });
+        res.status(200).json(note);
+    } catch (error) {
+        res.status(404).send(error.message);
+    }
+}
+
 export const updateNote = async (req, res) => {
     if (!req.user) {
         return res.status(400).json('User is not authenticated!');
