@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { MdDone, MdClose, MdError } from 'react-icons/md'
 import { AiOutlineClear } from 'react-icons/ai'
+
 import StackedButtonsGroup from './StackedButtonsGroup'
 
 const initialData = {
@@ -8,8 +10,8 @@ const initialData = {
     description: '',
 }
 
-const NoteEditor = ({ editedNote, onSubmit, onCancel }) => {
-    const [formData, setFormData] = useState(editedNote);
+const NoteEditor = ({ title, description, onSubmit, onCancel }) => {
+    const [formData, setFormData] = useState({ title, description });
     const [error, setError] = useState({
         title: false,
         description: false,
@@ -43,7 +45,6 @@ const NoteEditor = ({ editedNote, onSubmit, onCancel }) => {
 
         if (formData.title && formData.description) {
             onSubmit(formData);
-            setFormData(initialData);
             return;
         } 
 
@@ -67,7 +68,7 @@ const NoteEditor = ({ editedNote, onSubmit, onCancel }) => {
 
     return (
         <form
-            className='flex flex-col p-2 gap-2 flex-1'
+            className='flex flex-col p-2 gap-2 flex-1 absolute inset-0 drop-shadow-xl'
             onSubmit={handleSubmit}>
             <input
                 type='text'
@@ -80,6 +81,9 @@ const NoteEditor = ({ editedNote, onSubmit, onCancel }) => {
                 className='py-2 px-2 text-2xl appearance-none outline-none drop-shadow-2xl
                 border-b-2 rounded-lg shadow-inner shadow-sky-800'
             />
+            {error.title && (
+                <MdError size={20} className='fixed right-4 top-4 text-red-600 animate-pulse' />
+            )}
 
             <textarea
                 name='description'
@@ -93,6 +97,9 @@ const NoteEditor = ({ editedNote, onSubmit, onCancel }) => {
                 className='px-4 py-6 leading-relaxed text-lg flex-1 appearance-none outline-none resize-none
                 drop-shadow-2xl rounded-lg shadow-inner shadow-sky-800'
             />
+            {error.description && (
+                <MdError size={20} className='fixed right-4 top-20 text-red-600 animate-pulse'/>
+            )}
 
             <div className='fixed bottom-4 right-4'>
                 <StackedButtonsGroup 
@@ -101,6 +108,7 @@ const NoteEditor = ({ editedNote, onSubmit, onCancel }) => {
                             name: 'edit',
                             type: 'submit',
                             handleClick: handleSubmit,
+                            color: 'bg-indigo-500',
                             icon: <MdDone size={20} />,
                         }, 
                         {
