@@ -69,7 +69,7 @@ const NoteMaker = ({ onSubmit }) => {
 
     return (
         <form
-            className='flex flex-col p-2 gap-2 flex-1'
+            className='flex flex-col p-2 gap-2 drop-shadow-xl absolute inset-0'
             onSubmit={handleSubmit}>
             <input
                 type='text'
