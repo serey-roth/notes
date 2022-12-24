@@ -54,9 +54,12 @@ const ConnectedForm = () => {
                 }
             }
         })
+        
+        const container = document.getElementById('googleLoginDiv');
+
         google.accounts.id.renderButton(
-            document.getElementById('googleLoginDiv'),
-            { theme: 'outline', size: 'large' }
+            container,
+            { theme: 'outline', size: 'large', width: container.getBoundingClientRect().width }
         );
     }, [])
 
