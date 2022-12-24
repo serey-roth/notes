@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from 'react-query'
-import { addNote, deleteNote, getNotes, updateNote } from '../../api'
+import { addNote, deleteNote, getNote, getNotes, updateNote } from '../../api'
 
 export const useNotes = () => {
     const {
@@ -21,6 +21,32 @@ export const useNotes = () => {
         data,
         isObtainingNotes,
         isErrorObtainingNotes,
+        isObtained,
+        obtainingError,
+        ...rest
+    }
+}
+
+export const useNote = (id) => {
+    const {
+        data,
+        isLoading: isObtainingNote,
+        isError: isErrorObtainingNote,
+        isSuccess: isObtained,
+        error: obtainingError,
+        ...rest
+    } = useQuery(
+        ['fetching note', id],
+        () => getNote(id),
+        {
+            keepPreviousData: true,
+        }
+    )
+
+    return {
+        data,
+        isObtainingNote,
+        isErrorObtainingNote,
         isObtained,
         obtainingError,
         ...rest
