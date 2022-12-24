@@ -5,15 +5,18 @@ import StackedButtonsGroup from './StackedButtonsGroup';
 
 const NoteViewer = ({ id, title, description, onDeleteNote, onEditing }) => {
     return (
-        <div className='flex flex-col p-2 gap-2 flex-1'>
-            <h1 className='py-2 px-2 text-2xl appearance-none outline-none drop-shadow-2xl
-            border-b-2 rounded-lg bg-white'>{title}</h1>
+        <div className='flex flex-col p-2 gap-2 flex-1 m-2 absolute inset-0 drop-shadow-xl
+        lg:bg-transparent bg-white rounded-lg ease-in-out duration-200'>
+            <h1 className='p-2 text-2xl border-b-2 border-dashed '>{title}</h1>
 
-            <p className='px-4 py-6 leading-relaxed text-lg flex-1 appearance-none outline-none resize-none
-            drop-shadow-2xl rounded-lg bg-white'>{description}</p>
-            
+            <div className='flex-1 relative'>
+                <p className='px-2 py-3 absolute inset-0 whitespace-pre-wrap
+                overflow-auto selection:text-fuchsia-500'>{description}</p>
+                
+            </div>
+
             <div className='fixed bottom-4 right-4'>
-                <StackedButtonsGroup 
+                <StackedButtonsGroup
                     buttonArray={[
                         {
                             name: 'add',
@@ -21,7 +24,7 @@ const NoteViewer = ({ id, title, description, onDeleteNote, onEditing }) => {
                             handleClick: onEditing,
                             icon: <MdEdit size={20} />,
                             color: 'bg-indigo-400',
-                        }, 
+                        },
                         {
                             name: 'clear',
                             type: 'button',
