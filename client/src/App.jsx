@@ -18,7 +18,7 @@ function App() {
                 const decodedToken = decode(token);
                 if (decodedToken.exp * 1000 < (new Date()).getTime()) {
                     localStorage.clear();
-                    if (currentPath === '/home') {
+                    if (currentPath !== '/') {
                         navigate('/');
                         toast('Session expired! Please log in.');
                     }
@@ -29,7 +29,7 @@ function App() {
                     }
                 }
             } else {
-                if (currentPath === '/home') {
+                if (currentPath !== '/') {
                     navigate('/');
                     toast('Session expired! Please log in.');
                 }
@@ -48,7 +48,7 @@ function App() {
     return (
         <div className='w-screen min-h-screen'>
             <Routes>
-                <Route path="/home" element={<Home />} />
+                <Route path="/home/*" element={<Home />} />
                 <Route path='/' element={<Auth/>} />
             </Routes>
         </div>
