@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const configOptions = {
-    baseURL: 'https://notes-server-pjd5.onrender.com',
+    baseURL: import.meta.env.VITE_SERVER_URL,
 }
 
 const api = axios.create(configOptions);
