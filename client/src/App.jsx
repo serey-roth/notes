@@ -24,7 +24,7 @@ function App() {
             window.removeEventListener('click', isTokenValid);
         }
 
-        
+        //if token is expired and user is on home page
         function kickUserOut() {
             if (currentPath.includes('home')) {
                 navigate('/');
@@ -35,6 +35,7 @@ function App() {
             }
         }
 
+        //if user is at landing page and token is stild valid
         function letUserIn() {
             if (currentPath === '/') {
                 navigate('/home');
@@ -46,7 +47,7 @@ function App() {
             
         }
 
-
+        //check if token has expired
         function isTokenValid() {
             const token = localStorage.getItem('currentUser');
             if (token) {
@@ -65,6 +66,7 @@ function App() {
                
         if (location.pathname.includes('home')) {
             isTokenValid();
+            addTokenListener();
         }
 
         return () => {
