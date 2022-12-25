@@ -20,7 +20,7 @@ const ConnectedNoteMaker = ({ onAdd, isVisible }) => {
 
     return (
         <div className={`h-full flex-1 md:relative ease-in-out duration-500
-        ${isVisible ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}>
+        ${isVisible ? 'opacity-100' : 'opacity-0 -z-10 md:opacity-100'}`}>
             <NoteMaker onSubmit={handleSubmit} />
         </div>
     )
