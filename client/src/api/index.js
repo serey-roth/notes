@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const configOptions = {
-    baseURL: 'http://localhost:5050',
+    baseURL: 'https://notes-server-pjd5.onrender.com',
 }
 
 const api = axios.create(configOptions);
