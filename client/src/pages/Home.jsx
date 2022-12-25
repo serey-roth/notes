@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
+import { AiOutlineFileAdd } from 'react-icons/ai'
+import { GoSignOut } from 'react-icons/go'
+import toast from 'react-hot-toast'
 
 import { useNotes } from '../utils/hooks/notes'
 
@@ -10,6 +13,7 @@ import ConnectedNoteViewer from '../components/home/ConnectedNoteViewer'
 import Navbar from '../components/Navbar'
 
 const Home = () => {
+    const navigate = useNavigate();
     const [notes, setNotes] = useState([]);
     const [noteMaker, setNoteMaker] = useState(false);
 
@@ -35,12 +39,29 @@ const Home = () => {
 
     const handleToggleNoteMaker = () => {
         setNoteMaker(prevVisible => !prevVisible);
+        navigate('/home');
+    }
+
+    const logout = () => {
+        localStorage.removeItem('currentUser');
+        toast('Logged out!')
+        navigate('/');
     }
 
     return (
-        <div className='flex flex-col fixed inset-0 bg-gradient-to-r
-        from-fuchsia-400 to-rose-400/50 py-2'>
-            <Navbar onNoteMakerVisible={handleToggleNoteMaker} />
+        <div className='flex flex-col fixed inset-0 bg-gradient-to-r from-fuchsia-400 to-rose-400/50'>
+            <div className='text-white p-4'>
+                <Navbar>
+                    <AiOutlineFileAdd 
+                        size={40} 
+                        className='p-2 text-white lg:text-fuchsia-900 hover:animate-pulse cursor-pointer' 
+                        onClick={handleToggleNoteMaker} />
+                    <GoSignOut 
+                        size={25} 
+                        className='cursor-pointer text-white lg:text-fuchsia-900 hover:animate-pulse' 
+                        onClick={logout} />
+                </Navbar>
+            </div>
             <div className='flex flex-1 relative'>
                 <Notes notes={notes} />
                 <Routes>
