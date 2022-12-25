@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const Notes = ({ notes }) => {
     return (
@@ -17,6 +17,10 @@ const Notes = ({ notes }) => {
                         </NavLink>
                     ))}
                 </div>
+            </div>
+            <div className='pt-2 text-white font-semibold flex items-center gap-1'>
+                <p>2022 Serey Roth</p>
+                <a href='https://github.com/serey-roth/notes' target='_blank' rel='noreferrer'>Source</a>
             </div>
         </div>
     )
