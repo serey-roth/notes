@@ -13,4 +13,5 @@ projects at one and switching back and forth between these projects.
 
 ## Tools
 Front-end: React.js, TailwindCSS, React Query, React Router DOM, React Hot Toast
+
 Back-end: Node.js, Express.js, Mongoose, Passport.js
