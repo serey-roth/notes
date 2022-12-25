@@ -6,6 +6,10 @@ import Navbar from '../components/Navbar';
 import ConnectedLogin from '../components/auth/ConnectedLogin';
 import ConnectedRegister from '../components/auth/ConnectedRegister';
 import { useGoogleLogin } from '../utils/hooks/auth';
+import { notifyPromise } from '../utils';
+
+const MemoLogin = React.memo(ConnectedLogin);
+const MemoRegister = React.memo(ConnectedRegister)
 
 const Auth = () => {
     const { googleLoginAsync } = useGoogleLogin();
@@ -53,8 +57,8 @@ const Auth = () => {
                     <div ref={googleContainer} className='self-center max-w-full overflow-hidden'></div>
                     <hr className='my-2' />
                     <Routes>
-                        <Route path='/login' element={<ConnectedLogin />} />
-                        <Route path='/register' element={<ConnectedRegister />} />
+                        <Route path='/login' element={<MemoLogin />} />
+                        <Route path='/register' element={<MemoRegister />} />
                     </Routes>
                 </div>
                 <div 
