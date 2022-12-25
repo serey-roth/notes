@@ -19,7 +19,7 @@ const ConnectedNoteViewer = ({ onDelete }) => {
             const result = await promise;
             if (result.success) {
                 onDelete(id);
-                navigate('/home/notes')
+                navigate('/home')
             }
         } catch (error) {
             console.error(error);
