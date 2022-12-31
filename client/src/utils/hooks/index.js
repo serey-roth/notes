@@ -27,8 +27,8 @@ export const useTokenValidation = () => {
                     navigate('/account/login');
                 }
             } else {
-                toast.success('Welcome back!');
                 if (!currentPath.includes('home')) {
+                    toast.success('Welcome back!');
                     navigate('/home');
                 }
             }
